@@ -1,12 +1,14 @@
 from flask import render_template, url_for, flash, redirect
-
 from DFD2GUI import app
+from DFD2GUI.forms import RegistrationForm, LoginForm
 
-@app.route("/")
-@app.route("/login")
+@app.route("/",  methods=['POST', 'GET'])
+@app.route("/login",  methods=['POST', 'GET'])
 def login():
-    return render_template('login.html', title="Login DFD2GUI")
+    form = LoginForm()
+    return render_template('login.html', title="Login DFD2GUI", form=form)
 
 @app.route("/register")
 def register():
-    return render_template('register.html')
+    form = RegistrationForm()
+    return render_template('register.html', title="Register DFD2GUI", form=form)
