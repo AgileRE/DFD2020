@@ -1,22 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>
-    Argon Dashboard - Free Dashboard for Bootstrap 4 by Creative Tim
-  </title>
-  <!-- Favicon -->
-  <link href="../static/img/brand/favicon.png" rel="icon" type="image/png">
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-  <!-- Icons -->
-  <link href="../static/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
-  <link href="../static/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="../static/css/argon-dashboard.css?v=1.1.1" rel="stylesheet" />
-</head>
+{% include 'includes/head.html' %}
 
 <body class="bg-default">
   <div class="main-content">
@@ -79,6 +64,9 @@
         <div class="col-lg-6 col-md-8">
           <div class="card bg-secondary shadow border-0">
             <div class="card-body px-lg-5 py-lg-5">
+              <div class="text-center text-muted mb-4">
+                <small>Sign up with credentials</small>
+              </div>
               <form role="form">
                 <div class="form-group">
                   <div class="input-group input-group-alternative mb-3">
@@ -124,23 +112,10 @@
       </div>
     </div>
   </div>
-  <!-- Footer -->
 
-  </div>
-  <!--   Core   -->
-  <script src="../static/js/plugins/jquery/dist/jquery.min.js"></script>
-  <script src="../static/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!--   Optional JS   -->
-  <!--   Argon JS   -->
-  <script src="../static/js/argon-dashboard.min.js?v=1.1.1"></script>
-  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-  <script>
-    window.TrackJS &&
-      TrackJS.install({
-        token: "ee6fab19c5a04ac1a32a645abde4613a",
-        application: "argon-dashboard-free"
-      });
-  </script>
+
+  
+  {% include 'includes/script.html' %}
 </body>
 
 </html>
