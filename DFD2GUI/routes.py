@@ -8,7 +8,10 @@ def login():
     form = LoginForm()
     return render_template('login.html', title="Login DFD2GUI", form=form)
 
-@app.route("/register")
+@app.route("/register", methods=['POST', 'GET'])
 def register():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        flash("Your account has been created", "success")
+        return redirect(url_for('login'))
     return render_template('register.html', title="Register DFD2GUI", form=form)

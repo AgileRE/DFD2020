@@ -20,7 +20,7 @@
           <div class="navbar-collapse-header d-md-none">
             <div class="row">
               <div class="col-6 collapse-brand">
-                  <img src="{{ url_for('static', filename='img/brand/blue.png') }}">
+                <img src="{{ url_for('static', filename='img/brand/blue.png') }}">
               </div>
             </div>
           </div>
@@ -34,7 +34,8 @@
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
               <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-light">To be able to experience DFD2GUI full features, please signin first with your email
+              <p class="text-lead text-light">To be able to experience DFD2GUI full features, please signin first with
+                your email
                 and password.</p>
             </div>
           </div>
@@ -74,6 +75,27 @@
                     <input class="form-control" placeholder="Password" type="password">
                   </div>
                 </div>
+                <!-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <span class="alert-text">Your email or password is incorrect!</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div> -->
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                      <span class="alert-text">{{ message }}</span>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+                
+
                 <div class="text-center">
                   {{ form.submit(class="btn btn-primary my-4") }}
                 </div>
@@ -89,6 +111,9 @@
       </div>
     </div>
   </div>
+
+
+
 
   {% include 'includes/script.html' %}
 </body>
