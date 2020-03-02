@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'includes/head.html' %}
+</head>
+
+<body>
+    {% include 'includes/sidebar.html' %}
+
+    <div class="main-content">
+        {% include 'includes/navbar.html' %}
+        <!-- Header -->
+        <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+            <div class="container-fluid">
+                <div class="header-body">
+                    {% block header %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mt--7">
+            {% block content %}{% endblock %}
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="row align-items-center justify-content-xl-between">
+                    <div class="col-xl-6">
+                        <div class="copyright text-center text-xl-left text-muted">
+                            &copy; 2020 <a href="#" class="font-weight-bold ml-1" target="_blank">Kelompok 4</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+</body>
+
+</html>
