@@ -4,8 +4,12 @@ from DFD2GUI.forms import RegistrationForm, LoginForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 
+
 @app.route("/login",  methods=['POST', 'GET'])
+@app.route("/",  methods=['POST', 'GET'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     form = LoginForm()
     print("email:",form.email.data)
     print("password:",form.password.data)
@@ -24,6 +28,8 @@ def login():
 
 @app.route("/register", methods=['POST', 'GET'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(name=form.name.data, email=form.email.data, password=form.password.data)
@@ -34,7 +40,6 @@ def register():
     return render_template('register.html', title="Register DFD2GUI", form=form)
 
 
-@app.route("/")
 @app.route("/dashboard")
 @login_required
 def dashboard():
