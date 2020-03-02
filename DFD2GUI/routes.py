@@ -1,10 +1,9 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from DFD2GUI import app, db
 from DFD2GUI.forms import RegistrationForm, LoginForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 
-@app.route("/",  methods=['POST', 'GET'])
 @app.route("/login",  methods=['POST', 'GET'])
 def login():
     form = LoginForm()
@@ -17,7 +16,8 @@ def login():
         print(form.email.data, form.password.data)
         if user and form.password.data == user.password:
             login_user(user)
-            return redirect(url_for('dashboard'))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
             flash("Your email or password is wrong", "danger")
     return render_template('login.html', title="Login DFD2GUI", form=form)
@@ -33,6 +33,14 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title="Register DFD2GUI", form=form)
 
+
+@app.route("/")
 @app.route("/dashboard")
+@login_required
 def dashboard():
-    return "<h1>Dasahboard</h1>"
+    return render_template('dashboard.html')
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
