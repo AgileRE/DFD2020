@@ -3,8 +3,12 @@ from DFD2GUI import app, db
 from DFD2GUI.forms import RegistrationForm, LoginForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
+import os
 
-active_link = {'dashboard':'', 'project-list':'', 'upload-dfd':''}
+def activate_link(page):
+    active_link = {'dashboard':'', 'project-list':'', 'upload-dfd':''}
+    active_link[page] = 'active'
+    return active_link
 
 @app.route("/login",  methods=['POST', 'GET'])
 @app.route("/",  methods=['POST', 'GET'])
@@ -43,20 +47,17 @@ def register():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    active_link['dashboard'] = 'active'
-    return render_template('dashboard.html', title="Dashboard", active_link=active_link)
+    return render_template('dashboard.html', title="Dashboard", active_link=activate_link('dashboard'))
 
 @app.route("/project-list")
 @login_required
 def project_list():
-    return "Ini list project"
-    # return render_template('dashboard.html', title="Dashboard")
+    return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'))
 
 @app.route("/upload-dfd")
 @login_required
 def upload_dfd():
-    return "Ini upload DFD"
-    # return render_template('dashboard.html', title="Dashboard")
+    return render_template('upload_dfd.html', title="Upload DFD", active_link=activate_link('upload-dfd'))
 
 @app.route("/logout")
 def logout():
