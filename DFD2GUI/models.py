@@ -21,6 +21,7 @@ class Project(db.Model):
     project_name = db.Column(db.String(30), nullable=False)
     DFD_file = db.Column(db.String(30), nullable=False)
     date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_accessed = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
