@@ -17,7 +17,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         print(form.email.data, form.password.data)
         if user and form.password.data == user.password:
-            login_user(user)
+            login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
