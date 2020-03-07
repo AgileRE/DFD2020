@@ -3,6 +3,7 @@
 
 <head>
     {% include 'includes/head.html' %}
+    {% block head %}{% endblock %}
 </head>
 
 <body>
@@ -32,7 +33,8 @@
             </footer>
         </div>
     </div>
-
+    {% include 'includes/script.html' %}
+    {% block script %}{% endblock %}
 </body>
 
 </html>

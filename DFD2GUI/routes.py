@@ -5,9 +5,17 @@ from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 import os
 
+def activate_link(page):
+    active_link = {'dashboard':'', 'project-list':'', 'upload-dfd':''}
+    active_link[page] = 'active'
+    return active_link
+
 @app.route("/", methods=["POST", "GET"])
 @app.route("/login",  methods=['POST', 'GET'])
+@app.route("/",  methods=['POST', 'GET'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     form = LoginForm()
     print("email:",form.email.data)
     print("password:",form.password.data)
@@ -22,10 +30,12 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
             flash("Your email or password is wrong", "danger")
-    return render_template('login.html', title="Login DFD2GUI", form=form)
+    return render_template('login.html', title="Login", form=form)
 
 @app.route("/register", methods=['POST', 'GET'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
         # Add user to database
@@ -42,13 +52,22 @@ def register():
         # Redirect to login
         flash("Your account has been created", "success")
         return redirect(url_for('login'))
-    return render_template('register.html', title="Register DFD2GUI", form=form)
-
+    return render_template('register.html', title="Register", form=form)
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', title="Dashboard", active_link=activate_link('dashboard'))
+
+@app.route("/project-list")
+@login_required
+def project_list():
+    return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'))
+
+@app.route("/upload-dfd")
+@login_required
+def upload_dfd():
+    return render_template('upload_dfd.html', title="Upload DFD", active_link=activate_link('upload-dfd'))
 
 @app.route("/logout")
 def logout():
