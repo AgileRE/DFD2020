@@ -10,6 +10,7 @@ def activate_link(page):
     active_link[page] = 'active'
     return active_link
 
+@app.route("/", methods=["POST", "GET"])
 @app.route("/login",  methods=['POST', 'GET'])
 @app.route("/",  methods=['POST', 'GET'])
 def login():
@@ -24,7 +25,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         print(form.email.data, form.password.data)
         if user and form.password.data == user.password:
-            login_user(user)
+            login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
@@ -37,9 +38,18 @@ def register():
         return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        # Add user to database
         user = User(name=form.name.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        # Add user's folder
+        directory = form.email.data
+        parent_dir = "DFD2GUI/user_project"
+        path = os.path.join(parent_dir, directory)
+        os.mkdir(path)
+
+        # Redirect to login
         flash("Your account has been created", "success")
         return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)
