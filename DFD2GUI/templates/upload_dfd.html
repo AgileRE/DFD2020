@@ -1,5 +1,48 @@
 {% extends 'layout.html' %}
 
-{% block cotntent %}
-    <h1>Haloo, ini project list</h1>
+{% block head %}
+<style>
+    .upload-form {
+        max-width: 50%;
+    }
+
+    @media (min-width: 300px ) {
+        .upload-form {
+            max-width: 90%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mt-5">
+    <div class="col-xl-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="container upload-form">
+                    <h1 class="text-center mt-4">
+                        Upload File Metadata DFD
+                    </h1>
+                    <form action="" method="POST" class="mt-4">
+                        <div class="form-group">
+                            <label for="project-name">Project Name</label>
+                            <input type="text" class="form-control" id="project-name" placeholder="Your Project Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="file-dfd">DFD File</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file-dfd" lang="en">
+                                <label class="custom-file-label" for="customFileLang">Select file</label>
+                            </div>
+                        </div>
+                        <div class="form-group my-4">
+                            <button class="btn btn-primary px-5">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 {% endblock %}

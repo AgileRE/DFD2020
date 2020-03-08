@@ -12,7 +12,6 @@ def activate_link(page):
 
 @app.route("/", methods=["POST", "GET"])
 @app.route("/login",  methods=['POST', 'GET'])
-@app.route("/",  methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
@@ -64,7 +63,7 @@ def dashboard():
 def project_list():
     return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'))
 
-@app.route("/upload-dfd")
+@app.route("/upload-dfd", methods=["POST", "GET"])
 @login_required
 def upload_dfd():
     return render_template('upload_dfd.html', title="Upload DFD", active_link=activate_link('upload-dfd'))
