@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from DFD2GUI.models import User
 
@@ -24,4 +25,7 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('That email is taken. Please choose a different one')
             
-
+class UploadDFDFileForm(FlaskForm):
+    project_name = StringField('Project Name', validators=[DataRequired()])
+    dfd_file = FileField('dfd_file', validators=[FileRequired(), FileAllowed(['bpm'])])
+    submit = SubmitField('Upload')

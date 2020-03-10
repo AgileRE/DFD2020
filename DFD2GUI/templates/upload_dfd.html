@@ -23,20 +23,24 @@
                     <h1 class="text-center mt-4">
                         Upload File Metadata DFD
                     </h1>
-                    <form action="" method="POST" class="mt-4">
+                    <form method="POST" class="mt-4" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
                         <div class="form-group">
                             <label for="project-name">Project Name</label>
-                            <input type="text" class="form-control" id="project-name" placeholder="Your Project Name">
+                            {{ form.project_name(class="form-control", placeholder="Your Project Name") }}
+                            <!-- <input type="text" class="form-control" id="project-name" placeholder="Your Project Name"> -->
                         </div>
                         <div class="form-group">
                             <label for="file-dfd">DFD File</label>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="file-dfd" lang="en">
-                                <label class="custom-file-label" for="customFileLang">Select file</label>
+                                <!-- <input type="file" class="" id="file-dfd" lang="en"> -->
+                                <label class="" for="customFileLang">Select file</label>
+                                {{ form.dfd_file() }}
                             </div>
                         </div>
                         <div class="form-group my-4">
-                            <button class="btn btn-primary px-5">Upload</button>
+                            {{ form.submit(class="btn btn-primary px-5") }}
+                            <!-- <button class="btn btn-primary px-5">Upload</button> -->
                         </div>
                     </form>
                 </div>

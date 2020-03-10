@@ -1,8 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request
 from DFD2GUI import app, db
-from DFD2GUI.forms import RegistrationForm, LoginForm
+from DFD2GUI.forms import RegistrationForm, LoginForm, UploadDFDFileForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.utils import secure_filename
 import os
 
 def activate_link(page):
@@ -66,7 +67,17 @@ def project_list():
 @app.route("/upload-dfd", methods=["POST", "GET"])
 @login_required
 def upload_dfd():
-    return render_template('upload_dfd.html', title="Upload DFD", active_link=activate_link('upload-dfd'))
+    form = UploadDFDFileForm()
+    if form.validate_on_submit():
+        f = form.dfd_file.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            app.root_path, filename
+        ))
+        return redirect(url_for("dashboard"))
+    else:
+        print(form.errors)
+    return render_template('upload_dfd.html', title="Upload DFD",form=form ,active_link=activate_link('upload-dfd'))
 
 @app.route("/logout")
 def logout():
