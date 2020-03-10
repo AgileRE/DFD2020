@@ -45,7 +45,7 @@ def register():
 
         # Add user's folder
         directory = form.email.data
-        parent_dir = "DFD2GUI/user_project"
+        parent_dir = os.path.join(app.root_path, "user_project")
         path = os.path.join(parent_dir, directory)
         os.mkdir(path)
 
@@ -71,8 +71,11 @@ def upload_dfd():
     if form.validate_on_submit():
         f = form.dfd_file.data
         filename = secure_filename(f.filename)
+        path = os.path.join(app.root_path, "user_project", current_user.email, form.project_name.data)
+        os.mkdir(path)
+        os.mkdir(os.path.join(path, "GUI"))
         f.save(os.path.join(
-            app.root_path, filename
+            path, filename
         ))
         return redirect(url_for("dashboard"))
     else:
