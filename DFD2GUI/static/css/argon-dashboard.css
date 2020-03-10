@@ -2520,15 +2520,15 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #5e72e4;
-  border-color: #5e72e4;
+  background-color: #fc98b1;
+  border-color: #fc98b1;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #5e72e4;
-  border-color: #5e72e4;
+  background-color: #fc98b1;
+  border-color: #fc98b1;
 }
 
 .btn-primary:focus,
@@ -6908,7 +6908,7 @@ button.bg-dark:focus {
 }
 
 .bg-default {
-  background-color: #172b4d !important;
+  background-color: #645487 !important;
 }
 
 a.bg-default:hover,
@@ -13107,6 +13107,9 @@ a.text-danger:focus {
 .text-light {
   color: #adb5bd !important;
 }
+.text-white {
+  color: #fff !important;
+}
 
 a.text-light:hover,
 a.text-light:focus {
@@ -13764,7 +13767,7 @@ button.section-darker:focus {
 }
 
 .bg-gradient-primary {
-  background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+  background: linear-gradient(87deg, #fc98b1 0, #f6a4b8 100%) !important;
 }
 
 .bg-gradient-secondary {
@@ -13876,7 +13879,7 @@ button.section-darker:focus {
 }
 
 .fill-default {
-  fill: #172b4d;
+  fill: #645487 ;
 }
 
 .stroke-default {
