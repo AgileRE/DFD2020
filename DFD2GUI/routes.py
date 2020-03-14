@@ -1,8 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request
 from DFD2GUI import app, db
-from DFD2GUI.forms import RegistrationForm, LoginForm
+from DFD2GUI.forms import RegistrationForm, LoginForm, UploadDFDFileForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.utils import secure_filename
 import os
 
 def activate_link(page):
@@ -12,7 +13,6 @@ def activate_link(page):
 
 @app.route("/", methods=["POST", "GET"])
 @app.route("/login",  methods=['POST', 'GET'])
-@app.route("/",  methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
@@ -35,7 +35,7 @@ def login():
 @app.route("/register", methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('login'))
     form = RegistrationForm()
     if form.validate_on_submit():
         # Add user to database
@@ -45,7 +45,7 @@ def register():
 
         # Add user's folder
         directory = form.email.data
-        parent_dir = "DFD2GUI/user_project"
+        parent_dir = os.path.join(app.root_path, "user_project")
         path = os.path.join(parent_dir, directory)
         os.mkdir(path)
 
@@ -64,10 +64,28 @@ def dashboard():
 def project_list():
     return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'))
 
-@app.route("/upload-dfd")
+@app.route("/new-project", methods=["POST", "GET"])
 @login_required
-def upload_dfd():
-    return render_template('upload_dfd.html', title="Upload DFD", active_link=activate_link('upload-dfd'))
+def new_project():
+    form = UploadDFDFileForm()
+    if form.validate_on_submit():
+        # Save File
+        f = form.dfd_file.data
+        filename = secure_filename(f.filename)
+        path = os.path.join(app.root_path, "user_project", current_user.email, form.project_name.data)
+        os.mkdir(path)
+        os.mkdir(os.path.join(path, "GUI"))
+        f.save( os.path.join(path, filename) )
+
+        # Add to Database
+        project = Project(project_name=form.project_name.data, DFD_file=filename, user_id=current_user.id)
+        db.session.add(project)
+        db.session.commit()
+
+        return redirect(url_for("dashboard"))
+    else:
+        print(form.errors)
+    return render_template('new_project.html', title="Upload DFD",form=form ,active_link=activate_link('upload-dfd'))
 
 @app.route("/logout")
 def logout():

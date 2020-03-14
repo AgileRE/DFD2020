@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<style>
+    .upload-form {
+        max-width: 50%;
+    }
+
+    @media (min-width: 300px ) {
+        .upload-form {
+            max-width: 90%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mt-5">
+    <div class="col-xl-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="container upload-form">
+                    <h1 class="text-center mt-4">
+                        Upload File Metadata DFD
+                    </h1>
+                    <form method="POST" class="mt-4" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            <label for="project-name">Project Name</label>
+                            {{ form.project_name(class="form-control", placeholder="Your Project Name") }}
+                            <!-- <input type="text" class="form-control" id="project-name" placeholder="Your Project Name"> -->
+                        </div>
+                        <div class="form-group">
+                            <label for="file-dfd">DFD File</label>
+                            <div class="custom-file">
+                                <!-- <input type="file" class="" id="file-dfd" lang="en"> -->
+                                <label class="" for="customFileLang">Select file</label>
+                                {{ form.dfd_file() }}
+                            </div>
+                        </div>
+                        <div class="form-group my-4">
+                            {{ form.submit(class="btn btn-primary px-5") }}
+                            <!-- <button class="btn btn-primary px-5">Upload</button> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

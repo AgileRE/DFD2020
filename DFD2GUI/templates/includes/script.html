@@ -1,14 +1,6 @@
-  <!--   Core   -->
-  <script src="{{ url_for('static', filename='js/plugins/jquery/dist/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-  <!--   Optional JS   -->
-  <!--   Argon JS   -->
-  <script src="{{ url_for('static', filename='js/argon-dashboard.min.js') }}"></script>
-  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-  <script>
-    window.TrackJS &&
-      TrackJS.install({
-        token: "ee6fab19c5a04ac1a32a645abde4613a",
-        application: "argon-dashboard-free"
-      });
-  </script>
+<!-- jQuery -->
+<script src="{{ url_for('static',filename='plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ url_for('static',filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for('static',filename='dist/js/adminlte.min.js') }}"></script>
