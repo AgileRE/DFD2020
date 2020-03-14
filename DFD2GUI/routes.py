@@ -35,7 +35,7 @@ def login():
 @app.route("/register", methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('login'))
     form = RegistrationForm()
     if form.validate_on_submit():
         # Add user to database
@@ -64,9 +64,9 @@ def dashboard():
 def project_list():
     return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'))
 
-@app.route("/upload-dfd", methods=["POST", "GET"])
+@app.route("/new-project", methods=["POST", "GET"])
 @login_required
-def upload_dfd():
+def new_project():
     form = UploadDFDFileForm()
     if form.validate_on_submit():
         # Save File
@@ -85,7 +85,7 @@ def upload_dfd():
         return redirect(url_for("dashboard"))
     else:
         print(form.errors)
-    return render_template('upload_dfd.html', title="Upload DFD",form=form ,active_link=activate_link('upload-dfd'))
+    return render_template('new_project.html', title="Upload DFD",form=form ,active_link=activate_link('upload-dfd'))
 
 @app.route("/logout")
 def logout():
