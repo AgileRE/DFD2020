@@ -29,7 +29,7 @@ class RegistrationForm(FlaskForm):
             
 class UploadDFDFileForm(FlaskForm):
     project_name = StringField('Project Name', validators=[DataRequired()])
-    submit = SubmitField('Upload')
+    submit = SubmitField('Add Project')
 
     def validate_project_name(self, project_name):
         path = os.path.join(app.root_path, "user_project", current_user.email)

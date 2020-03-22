@@ -86,7 +86,7 @@ def new_project():
         return redirect(url_for("dashboard"))
     else:
         print(form.errors)
-    return render_template('new_project.html', title="Upload DFD",form=form ,active_link=activate_link('upload-dfd'))
+    return render_template('new_project.html', title="New Project",form=form ,active_link=activate_link('upload-dfd'))
 
 @app.route("/logout")
 def logout():
