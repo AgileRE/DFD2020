@@ -65,16 +65,13 @@ def project_list():
 def new_project():
     form = UploadDFDFileForm()
     if form.validate_on_submit():
-        # Save File
-        f = form.dfd_file.data
-        filename = secure_filename(f.filename)
+        # Create Directory Project
         path = os.path.join(app.root_path, "user_project", current_user.email, form.project_name.data)
         os.mkdir(path)
         os.mkdir(os.path.join(path, "GUI"))
-        f.save( os.path.join(path, filename) )
 
         # Add to Database
-        project = Project(project_name=form.project_name.data, DFD_file=filename, user_id=current_user.id)
+        project = Project(project_name=form.project_name.data, user_id=current_user.id)
         db.session.add(project)
         db.session.commit()
 

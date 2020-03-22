@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
 from DFD2GUI import app
@@ -30,7 +29,6 @@ class RegistrationForm(FlaskForm):
             
 class UploadDFDFileForm(FlaskForm):
     project_name = StringField('Project Name', validators=[DataRequired()])
-    dfd_file = FileField('dfd_file', validators=[FileRequired(), FileAllowed(['bpm'])])
     submit = SubmitField('Upload')
 
     def validate_project_name(self, project_name):
