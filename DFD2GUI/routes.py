@@ -4,6 +4,7 @@ from DFD2GUI.forms import RegistrationForm, LoginForm, UploadDFDFileForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
+from datetime import date
 import os
 
 def activate_link(page):
@@ -53,7 +54,14 @@ def register():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('dashboard.html', title="Dashboard", active_link=activate_link('dashboard'))
+    projects = {"latest": "", "recent":""}
+    # Latest Project Query
+    projects["latest"] = Project.query.filter_by(user_id=current_user.id).order_by(Project.id).limit(5)
+    
+    # Recent Project Query
+    projects["recent"] = Project.query.filter_by(user_id=current_user.id).order_by(Project.date_accessed).limit(5)
+
+    return render_template('dashboard.html', title="Dashboard", active_link=activate_link('dashboard'), projects=projects)
 
 @app.route("/project-list")
 @login_required

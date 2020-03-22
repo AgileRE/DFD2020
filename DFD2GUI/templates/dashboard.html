@@ -24,19 +24,20 @@
                         </tr>
                     </thead>
                     <tbody class="list">
+                        {% for project in projects["latest"] %}
                         <tr>
                             <th scope="row">
-                                <span class="name mb-0 text-sm">Project 1</span>
+                                <span class="name mb-0 text-sm">{{ project.project_name }}</span>
                             </th>
                             <td>
-                                tanggal upload
+                                {{ project.date_uploaded.strftime("%d %b %Y. %H:%M") }}
                             </td>
                             <td>
-                                tanggal update
+                                {{ project.date_accessed.strftime("%d %b %Y. %H:%M") }}
                             </td>
                             <td class="text-right">
                                 <div class="dropdown">
-                                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                    <a class="btn btn-sm btn-icon-only text-dark" href="#" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
@@ -47,6 +48,7 @@
                                 </div>
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -74,13 +76,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for project in projects["recent"] %}
                         <tr>
                             <th scope="row">
-                                Nama Project
+                                {{ project.project_name }}
                             </th>
                             <td class="text-right">
                                 <div class="dropdown">
-                                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                    <a class="btn btn-sm btn-icon-only text-dark" href="#" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
@@ -91,6 +94,7 @@
                                 </div>
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
