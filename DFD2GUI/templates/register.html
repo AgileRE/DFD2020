@@ -11,45 +11,102 @@
 
     <div class="card">
       <div class="card-body register-card-body">
-        <p class="login-box-msg">Register a new membership</p>
+        <p class="login-box-msg">Register a new account</p>
 
         <form method="POST">
           {{ form.hidden_tag() }}
           <div class="input-group mb-3">
-            <!-- <input type="text" class="form-control" placeholder="Full name"> -->
+            {% if form.name.errors %}
+              {{ form.name(class='form-control is-invalid', placeholder="Full name") }}
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-user"></span>
+                </div>
+              </div>
+              {% for error in form.name.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+            {% else %}
             {{ form.name(class='form-control', placeholder="Full name") }}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
               </div>
             </div>
+            {% endif %}
           </div>
+
           <div class="input-group mb-3">
+            {% if form.email.errors %}
+              {{ form.email(class='form-control is-invalid', placeholder="Email") }}
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+              {% for error in form.email.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+            {% else %}
             {{ form.email(class='form-control', placeholder="Email") }}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
               </div>
             </div>
+            {% endif %}
           </div>
+
           <div class="input-group mb-3">
+            {% if form.password.errors %}
+              {{ form.password(class='form-control is-invalid', placeholder="Password") }}
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+              {% for error in form.password.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+            {% else %}
             {{ form.password(class='form-control', placeholder="Password") }}
-            <!-- <input type="password" class="form-control" placeholder="Password"> -->
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
               </div>
             </div>
+            {% endif %}
           </div>
+
           <div class="input-group mb-3">
-            {{ form.confirm_password(class='form-control', placeholder="Confirm Password") }}
-            <!-- <input type="password" class="form-control" placeholder="Retype password"> -->
+            {% if form.confirm_password.errors %}
+              {{ form.confirm_password(class='form-control is-invalid', placeholder="Confirm password") }}
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+              {% for error in form.confirm_password.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+            {% else %}
+            {{ form.confirm_password(class='form-control', placeholder="Confirm password") }}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
               </div>
             </div>
+            {% endif %}
           </div>
+
           <div class="row py-4">
             <!-- /.col -->
             <div class="col-12">
@@ -61,7 +118,7 @@
         </form>
 
 
-        <a href="{{ url_for('login') }}" class="text-center">I already have a membership</a>
+        <a href="{{ url_for('login') }}" class="text-center">I already have a account</a>
       </div>
       <!-- /.form-box -->
     </div><!-- /.card -->

@@ -17,10 +17,6 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     form = LoginForm()
-    print("email:",form.email.data)
-    print("password:",form.password.data)
-    print()
-    print(form.email.errors)
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         print(form.email.data, form.password.data)
