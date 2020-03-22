@@ -3,3 +3,4 @@ DFD2GUI/__pycache__/
 __init__.pyc
 /.mypy_cache/3.7
 DFD2GUI/site.db
+DFD2GUI/user_project/**
