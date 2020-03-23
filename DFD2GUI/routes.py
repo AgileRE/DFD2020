@@ -96,6 +96,11 @@ def new_project():
 def add_entity():
     return render_template('add_entity.html', title="Add Entity" ,active_link=activate_link('new-project'))
 
+@app.route("/add-datastore", methods=["POST", "GET"])
+@login_required
+def add_datastore():
+    return render_template('add_datastore.html', title="Add Datastore" ,active_link=activate_link('new-project'))
+
 @app.route("/logout")
 def logout():
     logout_user()
