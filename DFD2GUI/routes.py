@@ -7,21 +7,25 @@ from werkzeug.utils import secure_filename
 from datetime import date
 from itertools import count
 import os
+import json
 
 def activate_link(page):
     active_link = {'dashboard':'', 'project-list':'', 'new-project':''}
     active_link[page] = 'active'
     return active_link
 
+
+project_session = {'project_name':'', 'curr_route':'', 'path': ''}
+
 @app.route("/", methods=["POST", "GET"])
 @app.route("/login",  methods=['POST', 'GET'])
 def login():
+    global project_session
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        print(form.email.data, form.password.data)
         if user and form.password.data == user.password:
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
@@ -76,17 +80,19 @@ def project_list():
 def new_project():
     form = UploadDFDFileForm()
     if form.validate_on_submit():
-        # Create Directory Project
+        project_session['curr_route'] = 'new_project'
         path = os.path.join(app.root_path, "user_project", current_user.email, form.project_name.data)
         os.mkdir(path)
+        f = open(os.path.join(path, 'metadata.json'), 'w')
+        print(os.path.join(path, 'metadata.json'))
+        f.close()
         os.mkdir(os.path.join(path, "GUI"))
-
-        # Add to Database
         project = Project(project_name=form.project_name.data, user_id=current_user.id)
         db.session.add(project)
         db.session.commit()
-
-        return redirect(url_for("dashboard"))
+        project_session['project_name'] = form.project_name.data
+        project_session['path'] = path
+        return redirect(url_for("add_entity"))
     else:
         print(form.errors)
     return render_template('new_project.html', title="New Project",form=form ,active_link=activate_link('new-project'))
@@ -94,12 +100,45 @@ def new_project():
 @app.route("/add-entity", methods=["POST", "GET"])
 @login_required
 def add_entity():
+    global project_session
+    project_session['curr_route'] = 'add_entity'
+    print(project_session)
     return render_template('add_entity.html', title="Add Entity" ,active_link=activate_link('new-project'))
+
+@app.route("/add-entity-func", methods=["POST", "GET"])
+@login_required
+def add_entity_func():
+    global project_session
+    entity = request.args.get('entity')
+    lis_entity = entity.split("^")
+    dic = {}
+    for i in list(enumerate(lis_entity)):
+        dic[ 'e-'+str(i[0]) ] = {'type': 'entity', 'name':i[1]}
+    json_entity = json.dumps(dic, indent=2)
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'w') as f:
+        f.write(json_entity)
+    return redirect(url_for("add_datastore"))
 
 @app.route("/add-datastore", methods=["POST", "GET"])
 @login_required
 def add_datastore():
     return render_template('add_datastore.html', title="Add Datastore" ,active_link=activate_link('new-project'))
+
+@app.route("/fuck-this-shit")
+def fuck_this_shit():
+    import shutil
+    user_project = os.path.join(app.root_path, 'user_project')
+    os.chdir(user_project)
+    for i in os.listdir(user_project):
+        if os.path.isdir(i):
+            shutil.rmtree(i)
+        else:
+            os.remove(i)
+
+    db.drop_all()
+    db.create_all()
+    return redirect(url_for('logout'))
 
 @app.route("/logout")
 def logout():

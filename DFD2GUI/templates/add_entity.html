@@ -56,10 +56,10 @@
                     </table>
                 </div>
             </div>
-            <a href="#" class="btn btn-primary my-2">
+            <button class="btn btn-primary my-2" v-on:click="exportEntity">
                 <i class="fa fa-arrow-right pr-3"></i>
                 Next
-            </a>
+            </button>
         </div>
     </div>
 </div>
@@ -79,8 +79,13 @@
                 this.entities.push(this.newEntity);
                 this.newEntity = '';
             },
-            removeEntity: function(index){
+            removeEntity: function (index) {
                 this.entities.splice(index, 1);
+            },
+            exportEntity: function () {
+                entity = this.entities.join("^")
+                path = "{{ url_for('add_entity_func') }}" + "?entity=" +entity
+                window.location.replace(path);
             }
         },
         computed: {
@@ -90,4 +95,4 @@
         }
     })
 </script>
-{% endblock %}  
+{% endblock %}
