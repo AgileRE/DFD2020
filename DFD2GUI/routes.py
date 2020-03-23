@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request
-from DFD2GUI import app, db
+from DFD2GUI import app, db, project_session
 from DFD2GUI.forms import RegistrationForm, LoginForm, UploadDFDFileForm
 from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
@@ -14,8 +14,8 @@ def activate_link(page):
     active_link[page] = 'active'
     return active_link
 
-
-project_session = {'project_name':'', 'curr_route':'', 'path': ''}
+def reset_project_session():
+    project_session = {'project_name':'', 'curr_route':'', 'path': ''}
 
 @app.route("/", methods=["POST", "GET"])
 @app.route("/login",  methods=['POST', 'GET'])
@@ -61,10 +61,10 @@ def register():
 def dashboard():
     projects = {"latest": "", "recent":""}
     # Latest Project Query
-    projects["latest"] = Project.query.filter_by(user_id=current_user.id).order_by(Project.id).limit(5)
+    projects["latest"] = Project.query.filter_by(user_id=current_user.id).order_by(Project.id.desc()).limit(5)
     
     # Recent Project Query
-    projects["recent"] = Project.query.filter_by(user_id=current_user.id).order_by(Project.date_accessed).limit(5)
+    projects["recent"] = Project.query.filter_by(user_id=current_user.id).order_by(Project.date_accessed.desc()).limit(5)
 
     return render_template('dashboard.html', title="Dashboard", active_link=activate_link('dashboard'), projects=projects)
 
@@ -124,6 +124,23 @@ def add_entity_func():
 @login_required
 def add_datastore():
     return render_template('add_datastore.html', title="Add Datastore" ,active_link=activate_link('new-project'))
+
+@app.route("/add-datastore-func", methods=["POST", "GET"])
+@login_required
+def add_datastore_func():
+    global project_session
+    datastore = request.args.get('datastore')
+    path = os.path.join(project_session['path'], 'metadata.json')
+    print(path)
+    lis_datastore = datastore.split("^")
+    with open(path, 'r') as f:
+        dic = json.loads(f.read())
+    for i in list(enumerate(lis_datastore)):
+        dic[ 'ds-'+str(i[0]) ] = {'type': 'datastore', 'name':i[1]}
+    json_datastore = json.dumps(dic, indent=2)
+    with open(path, 'w') as f:
+        f.write(json_datastore)
+    return redirect(url_for("dashboard"))
 
 @app.route("/fuck-this-shit")
 def fuck_this_shit():

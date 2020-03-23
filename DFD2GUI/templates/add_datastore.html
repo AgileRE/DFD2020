@@ -56,10 +56,10 @@
                     </table>
                 </div>
             </div>
-            <a href="#" class="btn btn-primary my-2">
+            <button class="btn btn-primary my-2" v-on:click="exportDataStore">
                 <i class="fa fa-arrow-right pr-3"></i>
                 Next
-            </a>
+            </button>
         </div>
     </div>
 </div>
@@ -81,6 +81,11 @@
             },
             removeDataStore: function(index){
                 this.dataStore.splice(index, 1);
+            },
+            exportDataStore: function () {
+                datastore = this.dataStore.join("^")
+                path = "{{ url_for('add_datastore_func') }}" + "?datastore=" + datastore
+                window.location.replace(path);
             }
         },
         computed: {
