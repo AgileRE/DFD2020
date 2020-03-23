@@ -1,5 +1,54 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+{% endblock %}
+
 {% block content %}
-    
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Project List</h4>
+            </div>
+            <div class="card-body">
+                <table id="project-list" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Project Name</th>
+                            <th>Date Uploaded</th>
+                            <th>Date Accessed</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ project[0] }}</td>
+                            <td>{{ project[1].project_name }}</td>
+                            <td>{{ project[1].date_uploaded.strftime("%d %b %Y. %H:%M") }}</td>
+                            <td data-value="{{ project[1].id }}">{{ project[1].date_accessed.strftime("%d %b %Y. %H:%M") }}</td>
+                            <td class="text-center" > <a href="#"> <i class="fa fa-eye"></i> </a> </td>
+                            <td class="text-center"> <a href="#"> <i class="fa fa-download"></i> </a> </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+
+<script>
+    $(function () {
+    $("#project-list").DataTable();
+  });
+</script>
 {% endblock %}

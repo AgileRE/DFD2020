@@ -5,10 +5,11 @@ from DFD2GUI.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from datetime import date
+from itertools import count
 import os
 
 def activate_link(page):
-    active_link = {'dashboard':'', 'project-list':'', 'upload-dfd':''}
+    active_link = {'dashboard':'', 'project-list':'', 'new-project':''}
     active_link[page] = 'active'
     return active_link
 
@@ -66,7 +67,9 @@ def dashboard():
 @app.route("/project-list")
 @login_required
 def project_list():
-    return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'))
+    project_list = Project.query.filter_by(user_id=current_user.id).order_by(Project.id)
+    project_list = list(enumerate(project_list, 1))
+    return render_template('project_list.html', title="Project list", active_link=activate_link('project-list'), projects=project_list)
 
 @app.route("/new-project", methods=["POST", "GET"])
 @login_required
@@ -86,7 +89,12 @@ def new_project():
         return redirect(url_for("dashboard"))
     else:
         print(form.errors)
-    return render_template('new_project.html', title="New Project",form=form ,active_link=activate_link('upload-dfd'))
+    return render_template('new_project.html', title="New Project",form=form ,active_link=activate_link('new-project'))
+
+@app.route("/add-entity", methods=["POST", "GET"])
+@login_required
+def add_entity():
+    return render_template('add_entity.html', title="Add Entity" ,active_link=activate_link('new-project'))
 
 @app.route("/logout")
 def logout():
