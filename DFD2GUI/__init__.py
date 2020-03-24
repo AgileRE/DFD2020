@@ -18,4 +18,7 @@ if not os.path.exists(path):
     user_project_path = os.path.join(app.root_path, "user_project")
     os.mkdir(user_project_path)
 
+if not os.path.exists(os.path.join(app.root_path, 'site.db')):
+    db.create_all()
+
 from DFD2GUI import routes
