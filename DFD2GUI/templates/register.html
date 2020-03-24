@@ -3,16 +3,19 @@
 
 {% include 'includes/head.html' %}
 
-<body class="hold-transition register-page">
+<body class="hold-transition register-page new-background">
+  <div class="login-logo new-logo">
+    <a href="index2.html"><b>DFD2</b>GUI</a>
+  </div>
+  <div class="new-caption">
+    <p>A web application to make developers easier to build 
+      the Data Flow Diagrams interfaces
+    </p>
+  </div>
   <div class="register-box">
-    <div class="register-logo">
-      <a href="../../index2.html"><b>DFD2</b>GUI</a>
-    </div>
-
     <div class="card">
       <div class="card-body register-card-body">
         <p class="login-box-msg">Register a new account</p>
-
         <form method="POST">
           {{ form.hidden_tag() }}
           <div class="input-group mb-3">
