@@ -1,52 +1,51 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="{{ url_for('dashboard') }}" class="brand-link text-center">
-      <span class="brand-text font-weight-light">DFD2GUI</span>
+<aside class="main-sidebar sidebar-light-primary new-sidebar-blue-primary elevation-2">
+  <!-- Sidebar -->
+  <div class="sidebar">
+      <!-- Brand Logo -->
+    <a href="{{ url_for('dashboard') }}" class="brand-link text-left">
+      <span class="brand-text font-weight-bold">DFD2</span><span class="brand-text font-weight-light">GUI</span>
     </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="info">
-          <a href="#" class="d-block">{{ current_user.name }}</a>
-        </div>
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="info">
+        <a href="#" class="d-block">{{ current_user.name }}</a>
       </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="{{ url_for('dashboard') }}" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>
-                Project List
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ url_for('project_list') }}" class="nav-link">
-              <i class="nav-icon fas fa-list"></i>
-              <p>
-                Project List
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ url_for('new_project') }}" class="nav-link">
-              <i class="nav-icon fas fa-folder-plus"></i>
-              <p>
-                New Project
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
-  </aside>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+              with font-awesome or any other icon font library -->
+        <li class="nav-item new-nav-item">
+          <a href="{{ url_for('dashboard') }}" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item new-nav-item">
+          <a href="{{ url_for('project_list') }}" class="nav-link">
+            <i class="nav-icon fas fa-list"></i>
+            <p>
+              Project List
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item new-nav-item">
+          <a href="{{ url_for('new_project') }}" class="nav-link">
+            <i class="nav-icon fas fa-folder-plus"></i>
+            <p>
+              New Project
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
