@@ -19,8 +19,8 @@
                             <th>Project Name</th>
                             <th>Date Uploaded</th>
                             <th>Date Accessed</th>
-                            <th></th>
-                            <th></th>
+                            <th class="text-center">Preview</th>
+                            <th class="text-center">Download</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,8 +29,9 @@
                             <td>{{ project[0] }}</td>
                             <td>{{ project[1].project_name }}</td>
                             <td>{{ project[1].date_uploaded.strftime("%d %b %Y. %H:%M") }}</td>
-                            <td data-value="{{ project[1].id }}">{{ project[1].date_accessed.strftime("%d %b %Y. %H:%M") }}</td>
-                            <td class="text-center" > <a href="#"> <i class="fa fa-eye"></i> </a> </td>
+                            <td data-value="{{ project[1].id }}">
+                                {{ project[1].date_accessed.strftime("%d %b %Y. %H:%M") }}</td>
+                            <td class="text-center"> <a href="#"> <i class="fa fa-eye"></i> </a> </td>
                             <td class="text-center"> <a href="#"> <i class="fa fa-download"></i> </a> </td>
                         </tr>
                         {% endfor %}
@@ -48,7 +49,7 @@
 
 <script>
     $(function () {
-    $("#project-list").DataTable();
-  });
+        $("#project-list").DataTable();
+    });
 </script>
 {% endblock %}

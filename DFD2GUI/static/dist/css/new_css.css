@@ -1,0 +1,39 @@
+.new-background {
+    background: url('/static/dist/img/blue-background-wave.png');
+    background-size: 100%;
+    background-position: top;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.new-logo {
+    font-size: 3.1rem;
+}
+
+.new-logo a {
+    color: #ffffff;
+}
+
+.new-caption {
+    width: 370px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+[class*='new-sidebar-blue-'] .nav-sidebar>.new-nav-item.menu-open>.nav-link,
+[class*='new-sidebar-blue-'] .nav-sidebar>.new-nav-item:hover>.nav-link {
+    background-color: #2b74f7;
+    color: #ffffff;
+}
+
+[class*='new-sidebar-blue-'] {
+    background-color: #ffffff;
+}
+
+.layout-navbar-fixed .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
+    background-color: #ffffff;
+}
+
+[class*="sidebar-blue-"] .sidebar a span:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link) {
+    color: #0080ff;
+}
