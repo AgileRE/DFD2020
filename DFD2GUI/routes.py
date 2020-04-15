@@ -165,6 +165,11 @@ def add_process_func():
     return redirect(url_for("dashboard"))
 
 
+@app.route("/add-process-det")
+@login_required
+def add_process_det():
+    return render_template('add_process_det.html', title="Add Process Detail" ,active_link=activate_link('new-project'))
+
 @app.route("/fuck-this-shit")
 def fuck_this_shit():
     import shutil
