@@ -125,13 +125,12 @@ def add_entity_func():
 def add_datastore():
     return render_template('add_datastore.html', title="Add Datastore" ,active_link=activate_link('new-project'))
 
-@app.route("/add-datastore-func", methods=["POST", "GET"])
+@app.route("/add-datastore-func")
 @login_required
 def add_datastore_func():
     global project_session
     datastore = request.args.get('datastore')
     path = os.path.join(project_session['path'], 'metadata.json')
-    print(path)
     lis_datastore = datastore.split("^")
     with open(path, 'r') as f:
         dic = json.loads(f.read())
@@ -140,12 +139,31 @@ def add_datastore_func():
     json_datastore = json.dumps(dic, indent=2)
     with open(path, 'w') as f:
         f.write(json_datastore)
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("add_process"))
 
 @app.route("/add-process", methods=["POST", "GET"])
 @login_required
 def add_process():
     return render_template('add_process.html', title="Add Process" ,active_link=activate_link('new-project'))
+
+@app.route("/add-process-func")
+@login_required
+def add_process_func():
+    global project_session
+    path = os.path.join(project_session['path'], 'metadata.json')
+    process = request.args.get('process')
+    process_list = json.loads(process)
+    with open(path, 'r') as f:
+        dic = json.loads(f.read())
+
+    for i, item in enumerate(process_list):
+        dic[ 'pr-'+str(i) ] = {'type':'process', 'name':item['name'], 'parent':item['parent']}
+   
+    process_json = json.dumps(dic, indent=2)
+    with open(path, 'w') as f:
+        f.write(process_json)
+    return redirect(url_for("dashboard"))
+
 
 @app.route("/fuck-this-shit")
 def fuck_this_shit():

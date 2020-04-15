@@ -51,7 +51,7 @@
                                         v-on:keyup.enter='addChildProcess'>
                                 </div>
                             </div>
-                            <a class="btn btn-primary text-white mt-3" v-on:click="addChildProcess">
+                            <a class="btn btn-primary text-white mt-3" v-on:click="addChildProcess" disabled>
                                 <i class="fa fa-plus pr-2"></i> Add Child
                             </a>
                         </div>
@@ -76,7 +76,7 @@
                                 <td>[[ process[i-1]['name'] ]]</td>
                                 <td>[[ process[i-1]['parent'] ]]</td>
                                 <td class="text-center">
-                                    <a class="btn btn-danger btn-sm text-white" v-on:click=''>
+                                    <a class="btn btn-danger btn-sm text-white" v-on:click='removeProcess([[ i-1 ]])'>
                                         <i class="fa fa-minus pr-2"></i> Remove
                                     </a>
                                 </td>
@@ -126,22 +126,26 @@
                     'name': name,
                     'parent': parent,
                 };
-                newChildProcess = "";
-                parentChildProcess = "";
+                this.newChildProcess = '';
+                this.parentChildProcess = 0;
                 this.process.push(obj);
             },
             removeProcess: function (index) {
                 this.process.splice(index, 1);
             },
             exportProcess: function () {
-                process = this.process.join("^")
-                path = "" + "?process=" + process;
+                process = this.json_stringify
+                // console.log(process)
+                path = "{{ url_for('add_process_func') }}"  + "?process=" + process;
                 window.location.replace(path);
             }
         },
         computed: {
-           processFor: function () {
+            processFor: function () {
                 return this.process.length;
+            },
+            json_stringify: function(){
+                return JSON.stringify(this.process)
             }
         }
     })
