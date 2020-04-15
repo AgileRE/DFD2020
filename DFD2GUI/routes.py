@@ -142,6 +142,11 @@ def add_datastore_func():
         f.write(json_datastore)
     return redirect(url_for("dashboard"))
 
+@app.route("/add-process", methods=["POST", "GET"])
+@login_required
+def add_process():
+    return render_template('add_process.html', title="Add Process" ,active_link=activate_link('new-project'))
+
 @app.route("/fuck-this-shit")
 def fuck_this_shit():
     import shutil
