@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            {{ title }}
+        </div>
+        <div class="card-body" id="app">
+            <div class="row">
+                <div class="col-lg-8 col-12">
+                    <div class="mt-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Lowest Level Process</label>
+                            {% for i in  process %}
+                                {% for key, value in i.items() %}
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <input class="form-control" id="{{ key }}" value="{{ value['name'] }}" disabled>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                    <option value="no_gui" selected >No GUI</option>
+                                                    <option value="input">Input</option>
+                                                    <option value="grid">Grid</option>
+                                                    <option value="master_data">Master Data</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <button class="btn btn-primary my-4" v-on:click="exportDetailProcess">
+                <i class="fa fa-arrow-right pr-3"></i>
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    new Vue({
+        el: '#app',
+        delimiters: ["[[", "]]"],
+        data: {
+        },
+        methods: {
+            exportDetailProcess: function () {
+                proc_arr = document.getElementsByTagName('input');
+                gui_arr = document.getElementsByTagName('select');
+                output = []
+                for(var i = 0; i < gui_arr.length; i++){
+                    proc = proc_arr[i].value;
+                    gui = gui_arr[i].value;
+                    id = proc_arr[i].id;
+                    temp = {'gui_type': gui, 'process':proc, 'id_process': id};
+                    output.push(temp);
+                }
+                console.log(output)
+                json_output = JSON.stringify(output)
+                path = "{{ url_for('add_process_det_func') }}"  + "?process_det=" + json_output;
+                window.location.replace(path);
+            }
+        },
+    })
+</script>
+{% endblock %}

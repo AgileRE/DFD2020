@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            Add Entity
+        </div>
+        <div class="card-body" id="app">
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="mt-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Entity Name</label>
+                            <div class="row">
+                                <div class="col-9">
+                                    <input class="form-control" placeholder="Entity Name" v-model='newEntity'
+                                        v-on:keyup.enter='addEntity'>
+                                </div>
+                                <div class="col-3">
+                                    <a class="btn btn-primary text-white" v-on:click="addEntity"> <i
+                                            class="fa fa-plus pr-2"></i> Add</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Entity Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="i in entitiesFor">
+                                <td>[[ i ]]</td>
+                                <td>[[ entities[i-1] ]]</td>
+                                <td class="text-center">
+                                    <a class="btn btn-danger btn-sm text-white" v-on:click='removeEntity([[ i-1 ]])'>
+                                        <i class="fa fa-minus pr-2"></i>
+                                        Remove
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="btn btn-primary my-2" v-on:click="exportEntity">
+                <i class="fa fa-arrow-right pr-3"></i>
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    new Vue({
+        el: '#app',
+        delimiters: ["[[", "]]"],
+        data: {
+            entities: [],
+            newEntity: "",
+        },
+        methods: {
+            addEntity: function () {
+                this.entities.push(this.newEntity);
+                this.newEntity = '';
+            },
+            removeEntity: function (index) {
+                this.entities.splice(index, 1);
+            },
+            exportEntity: function () {
+                entity = this.entities.join("^")
+                path = "{{ url_for('add_entity_func') }}" + "?entity=" +entity
+                window.location.replace(path);
+            }
+        },
+        computed: {
+            entitiesFor: function () {
+                return this.entities.length;
+            }
+        }
+    })
+</script>
+{% endblock %}
