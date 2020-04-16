@@ -164,6 +164,10 @@ def add_process_func():
         f.write(process_json)
     return redirect(url_for("add_process_det"))
 
+@app.route("/add-relation")
+@login_required
+def add_relation():
+    return render_template('add_relation.html', title="Add relation" ,active_link=activate_link('new-project'))
 
 @app.route("/add-process-det")
 @login_required
