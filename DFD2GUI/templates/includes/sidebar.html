@@ -18,7 +18,7 @@
         <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
         <li class="nav-item new-nav-item">
-          <a href="{{ url_for('dashboard') }}" class="nav-link">
+          <a href="{{ url_for('dashboard') }}" class="nav-link {{active_link['dashboard']}}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -27,7 +27,7 @@
         </li>
 
         <li class="nav-item new-nav-item">
-          <a href="{{ url_for('project_list') }}" class="nav-link">
+          <a href="{{ url_for('project_list') }}" class="nav-link {{active_link['project-list']}}">
             <i class="nav-icon fas fa-list"></i>
             <p>
               Project List
@@ -36,7 +36,7 @@
         </li>
 
         <li class="nav-item new-nav-item">
-          <a href="{{ url_for('new_project') }}" class="nav-link">
+          <a href="{{ url_for('new_project') }}" class="nav-link {{active_link['new-project']}}">
             <i class="nav-icon fas fa-folder-plus"></i>
             <p>
               New Project

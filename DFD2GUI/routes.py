@@ -162,13 +162,61 @@ def add_process_func():
     process_json = json.dumps(dic, indent=2)
     with open(path, 'w') as f:
         f.write(process_json)
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("add_process_det"))
 
 
 @app.route("/add-process-det")
 @login_required
 def add_process_det():
-    return render_template('add_process_det.html', title="Add Process Detail" ,active_link=activate_link('new-project'))
+    global project_session
+    def check_lowest(key, dic):
+        for k in dic:
+            if dic[k]['parent'] == dic[key]['name']:
+                return False
+        return True
+
+    def get_lowest(dic):
+        output = []
+        temp_process = {}
+        for i in dic:
+            if 'pr' in i:
+                temp_process[i] = dic[i]
+        for key in temp_process:
+            if check_lowest(key, temp_process):
+                output.append(key)
+        return output
+
+    
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
+        json_txt = f.read()
+    dic_process = json.loads(json_txt)
+    lowest_process_key = get_lowest(dic_process)
+    lowest_process_list = []
+    for key in lowest_process_key:
+        temp = {key:{'type':'process', 'name':dic_process[key]['name'], 'parent':dic_process[key]['parent']}}
+        lowest_process_list.append(temp)
+    return render_template('add_process_det.html', title="Add Process Detail" ,active_link=activate_link('new-project'), process=lowest_process_list)
+
+@app.route('/add-process-det-func')
+@login_required
+def add_process_det_func():
+    global project_session
+    path = os.path.join(project_session['path'], 'metadata.json')
+    gui_json = request.args.get('process_det')
+    gui_list = json.loads(gui_json)
+    with open(path, 'r') as f:
+        dic = json.loads(f.read())
+    for gui in gui_list:
+        key = gui['id_process']
+        dic[key]['gui'] = gui['gui_type']
+
+    output = json.dumps(dic, indent=2)
+    with open(path, 'w') as f:
+        f.write(output)
+
+    return redirect(url_for('dashboard'))
+     
 
 @app.route("/fuck-this-shit")
 def fuck_this_shit():
@@ -189,3 +237,30 @@ def fuck_this_shit():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+# import json
+
+# def check_lowest(key, dic):
+#   for k in dic:
+#     if dic[k]['parent'] == dic[key]['name']:
+#       return False
+#   return True
+
+# def get_lowest(dic):
+#   output = []
+#   temp_process = {}
+#   for i in dic:
+#     if 'pr' in i:
+#       temp_process[i] = dic[i]
+#   for key in temp_process:
+#     if check_lowest(key, temp_process):
+#       output.append(key)
+#   return output
+
+# with open('test.json', 'r') as f:
+#   json_txt = f.read()
+
+# dic_process = json.loads(json_txt)
+# print(get_lowest(dic_process))
+

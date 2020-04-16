@@ -16,29 +16,33 @@
                 <div class="col-lg-8 col-12">
                     <div class="mt-2">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Child Process</label>
-                            <div class="row">
-                                <div class="col-6">
-                                    <input class="form-control" value="Child Process Name" v-model='newChildProcess' disabled>
-                                </div>
-                                <div class="col-6">
-                                    <div>
-                                        <select class="form-control" id="exampleFormControlSelect1" v-model='parentChildProcess'>
-                                            <option value="no_gui" selected >No GUI</option>
-                                            <option value="grid" selected >Grid</option>
-                                            <option value="master_data" selected >Master Data</option>
-                                        </select>
+                            <label for="exampleInputEmail1">Lowest Level Process</label>
+                            {% for i in  process %}
+                                {% for key, value in i.items() %}
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <input class="form-control" id="{{ key }}" value="{{ value['name'] }}" disabled>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                    <option value="no_gui" selected >No GUI</option>
+                                                    <option value="input">Input</option>
+                                                    <option value="grid">Grid</option>
+                                                    <option value="master_data">Master Data</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                </div>
-                            </div>
+                                {% endfor %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
             
 
-            <button class="btn btn-primary my-4" v-on:click="exportProcess">
+            <button class="btn btn-primary my-4" v-on:click="exportDetailProcess">
                 <i class="fa fa-arrow-right pr-3"></i>
                 Next
             </button>
@@ -53,52 +57,25 @@
         el: '#app',
         delimiters: ["[[", "]]"],
         data: {
-            process: [],
-            newChildProcess: "test",
-            parentChildProcess:"no_gui"
         },
         methods: {
-            addProcess: function () {
-                name = this.newProcess;
-                parent = null;
-                obj = {
-                    'name': name,
-                    'parent': parent,
-                };
-                this.newProcess = '';
-                this.process.push(obj);
-            },
-            addChildProcess: function () {
-                name = this.newChildProcess;
-                parent = this.parentChildProcess;
-                console.log(name)
-                console.log(parent)
-                obj = {
-                    'name': name,
-                    'parent': parent,
-                };
-                this.newChildProcess = '';
-                this.parentChildProcess = 0;
-                this.process.push(obj);
-            },
-            removeProcess: function (index) {
-                this.process.splice(index, 1);
-            },
-            exportProcess: function () {
-                process = this.json_stringify
-                // console.log(process)
-                path = "{{ url_for('add_process_func') }}"  + "?process=" + process;
+            exportDetailProcess: function () {
+                proc_arr = document.getElementsByTagName('input');
+                gui_arr = document.getElementsByTagName('select');
+                output = []
+                for(var i = 0; i < gui_arr.length; i++){
+                    proc = proc_arr[i].value;
+                    gui = gui_arr[i].value;
+                    id = proc_arr[i].id;
+                    temp = {'gui_type': gui, 'process':proc, 'id_process': id};
+                    output.push(temp);
+                }
+                console.log(output)
+                json_output = JSON.stringify(output)
+                path = "{{ url_for('add_process_det_func') }}"  + "?process_det=" + json_output;
                 window.location.replace(path);
             }
         },
-        computed: {
-            processFor: function () {
-                return this.process.length;
-            },
-            json_stringify: function(){
-                return JSON.stringify(this.process)
-            }
-        }
     })
 </script>
 {% endblock %}
