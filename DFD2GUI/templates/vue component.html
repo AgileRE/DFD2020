@@ -1,0 +1,141 @@
+<!--  VueJs Component -->
+<div class="row">
+    <div class="col-lg-6 col-12">
+        <div class="mt-2">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Relation Name</label>
+                <div class="row">
+                    <div class="col-12">
+                        <input class="form-control" placeholder="Process Name" v-model='newProcess'
+                            v-on:keyup.enter='addProcess'>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">From</label>
+                <div class="row">
+                    <div class="col-12">
+                        <div v-if='this.process.length > 0'>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Type</option>
+                                <option v-for='i in process' v-bind:value="i['name']">[[ i['name'] ]]
+                                </option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Type</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div v-if='this.process.length > 0'>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Name</option>
+                                <option v-for='i in process' v-bind:value="i['name']">[[ i['name'] ]]
+                                </option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">To</label>
+                <div class="row">
+                    <div class="col-12">
+                        <div v-if='this.process.length > 0'>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Type</option>
+                                <option v-for='i in process' v-bind:value="i['name']">[[ i['name'] ]]
+                                </option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Type</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div v-if='this.process.length > 0'>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Name</option>
+                                <option v-for='i in process' v-bind:value="i['name']">[[ i['name'] ]]
+                                </option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <select class="form-control" id="exampleFormControlSelect1"
+                                v-model='parentChildProcess'>
+                                <option value="0" selected disabled>Object Name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Add Attributes</label>
+                <div class="row">
+                    <div class="col-8">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <select name="tipe_data" class="form-control">
+                            <option value="int">Int</option>
+                            <option value="float">Float</option>
+                            <option value="string">String</option>
+                            <option value="boolena">Boolean</option>
+                            <option value="obj">Object</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary text-white btn-block">
+                            <i class="fa fa-plus pr-2"></i>Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Attributes Name</th>
+                        <th>Data Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for='i in processFor'>
+                        <td>[[ i ]]</td>
+                        <td>[[ process[i-1]['name'] ]]</td>
+                        <td>[[ process[i-1]['parent'] ]]</td>
+                        <td class="text-center">
+                            <a class="btn btn-danger btn-sm text-white" v-on:click='removeProcess([[ i-1 ]])'>
+                                <i class="fa fa-minus pr-2"></i> Remove
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="btn btn-danger btn-block mt-5 text-white">
+                Delete Relation
+            </a>
+        </div>
+    </div>
+</div>
+<!--  VueJs Component end-->

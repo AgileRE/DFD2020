@@ -172,25 +172,7 @@ def add_relation():
 @app.route("/add-process-det")
 @login_required
 def add_process_det():
-    global project_session
-    def check_lowest(key, dic):
-        for k in dic:
-            if dic[k]['parent'] == dic[key]['name']:
-                return False
-        return True
-
-    def get_lowest(dic):
-        output = []
-        temp_process = {}
-        for i in dic:
-            if 'pr' in i:
-                temp_process[i] = dic[i]
-        for key in temp_process:
-            if check_lowest(key, temp_process):
-                output.append(key)
-        return output
-
-    
+    global project_session    
     path = os.path.join(project_session['path'], 'metadata.json')
     with open(path, 'r') as f:
         json_txt = f.read()
@@ -243,28 +225,19 @@ def logout():
     return redirect(url_for('login'))
 
 
-# import json
+def check_lowest(key, dic):
+    for k in dic:
+        if dic[k]['parent'] == dic[key]['name']:
+            return False
+    return True
 
-# def check_lowest(key, dic):
-#   for k in dic:
-#     if dic[k]['parent'] == dic[key]['name']:
-#       return False
-#   return True
-
-# def get_lowest(dic):
-#   output = []
-#   temp_process = {}
-#   for i in dic:
-#     if 'pr' in i:
-#       temp_process[i] = dic[i]
-#   for key in temp_process:
-#     if check_lowest(key, temp_process):
-#       output.append(key)
-#   return output
-
-# with open('test.json', 'r') as f:
-#   json_txt = f.read()
-
-# dic_process = json.loads(json_txt)
-# print(get_lowest(dic_process))
-
+def get_lowest(dic):
+    output = []
+    temp_process = {}
+    for i in dic:
+        if 'pr' in i:
+            temp_process[i] = dic[i]
+    for key in temp_process:
+        if check_lowest(key, temp_process):
+            output.append(key)
+    return output
