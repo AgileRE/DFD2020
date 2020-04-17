@@ -12,9 +12,8 @@
             {{ title }}
         </div>
         <div class="card-body" id="app">
-
             <div v-for='i in relationFor'>
-                <button-counter :name='relation[i-1]'></button-counter>
+                <button-counter :name='relation[i-1]' :input_data='in_data' ref='relation'></button-counter>
             </div>
 
             <div class="row">
@@ -28,45 +27,192 @@
 
             <button class="btn btn-primary my-4" v-on:click="exportRelation">
                 <i class="fa fa-arrow-right pr-3"></i>
-                Next    
+                Next
             </button>
+
+            <!-- <input type="text" v-bind:value="[[ in_stringify ]]" class="form-control"> -->
+            <!-- <p>[[ in_stringify ]]</p> -->
         </div>
     </div>
 </div>
+<pre id='data' hidden>
+    {{ in_data }}
+</pre>
 {% endblock %}
 
 {% block script %}
 <script>
     Vue.component('button-counter', {
         delimiters: ["[[", "]]"],
-        props: ['name', ],
+        props: ['name', 'input_data'],
         data: function () {
             return {
-                count: 0,
+                relationName: '',
+                fromType: '0',
+                toType: '0',
+                fromObj: '0',
+                toObj: '0',
                 attr_name: '',
+                attr_dtype: '0',
                 attr: [],
+                show:true
             }
         },
         methods: {
-            delete_rel: function (id) {
-                this.$root.removeRelation(id);
+            delete_rel: function () {
+                // this.$root.removeRelation(this.name);
+                this.show = false
             },
-            add_attr: function(){
-                this.attr.push(this.attr_name);
+            add_attr: function () {
+                name = this.attr_name;
+                dtype = this.attr_dtype;
+                out = { 'name': name, 'dtype': dtype }
+                this.attr.push(out);
                 this.attr_name = '';
+                this.attr_dtype = '0';
             },
-            removeAttr: function(index){
+            removeAttr: function (index) {
                 this.attr.splice(index, 1);
             }
         },
-        template: `
-        <div v-bind:id='name'>
-            <button>[[ name ]]</button>
-            <button v-on:click="delete_rel(name)">delete</button>
+        computed: {
+            attrFor: function () {
+                return this.attr.length
+            }
+        },
+        filters:{
+            cap_first_letter: function(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+        },
+        template:
+            `
+        <!--  VueJs Component -->
+        <div class="row mt-3" v-bind:id="[[ name ]]" v-show="show">
+            <div class="col-lg-6 col-12">
+                <div class="mt-2">
+                    <div class="form-group">
+                        <label>Relation Name</label>
+                        <div class="row">
+                            <div class="col-12">
+                                <input class="form-control" placeholder="Process Name" v-model='relationName'>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- From Obj -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">From</label>
+                        <div class="row">
+                            <div class="col-12">
+                                <select class="form-control" v-model='fromType'>
+                                    <option value="0" disabled>Object Type</option>
+                                    <option value="entity">Entity</option>
+                                    <option value="datastore">Datastore</option>
+                                    <option value="process">Process</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <div v-if="fromType != '0'">
+                                    <select class="form-control" v-model='fromObj'>
+                                        <option value="0" disabled>Object Name</option>
+                                        <option v-for="i in input_data[fromType]" v-bind:value="i['name']">[[ i['name'] ]]</option>
+                                    </select>
+                                </div>
+                                <div v-else>
+                                    <select class="form-control" v-model='fromObj'>
+                                        <option value="0" disabled>Object Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- From Obj end -->
+
+                    <!-- To Obj -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">To</label>
+                        <div class="row">
+                            <div class="col-12">
+                                <select class="form-control" v-model='toType'>
+                                    <option value="0" disabled>Object Type</option>
+                                    <option value="entity">Entity</option>
+                                    <option value="datastore">Datastore</option>
+                                    <option value="process">Process</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <div v-if="toType != '0'">
+                                    <select class="form-control" v-model='toObj'>
+                                        <option value="0" disabled>Object Name</option>
+                                        <option v-for="i in input_data[toType]" v-bind:value="i['name']">[[ i['name'] ]]</option>
+                                    </select>
+                                </div>
+                                <div v-else>
+                                    <select class="form-control" v-model='toObj'>
+                                        <option value="0" disabled>Object Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- To Obj end -->
+                    <div class="form-group">
+                        <label for="">Add Attributes</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" class="form-control" v-model="attr_name">
+                            </div>
+                            <div class="col-4">
+                                <select name="tipe_data" class="form-control" v-model='attr_dtype'>
+                                    <option value="0" disabled>Data Type</option>
+                                    <option value="int">Int</option>
+                                    <option value="float">Float</option>
+                                    <option value="string">String</option>
+                                    <option value="boolena">Boolean</option>
+                                    <option value="obj">Object</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <a class="btn btn-primary text-white btn-block" v-on:click="add_attr">
+                                    <i class="fa fa-plus pr-2"></i>Add
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Attributes Name</th>
+                                <th>Data Type</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for='i in attrFor'>
+                                <td>[[ i ]]</td>
+                                <td>[[ attr[i-1]['name'] ]]</td>
+                                <td>[[ attr[i-1]['dtype'] | cap_first_letter ]]</td>
+                                <td class="text-center">
+                                    <a class="btn btn-danger btn-sm text-white" v-on:click='removeAttr([[ i-1 ]])'>
+                                        <i class="fa fa-minus pr-2"></i> Remove
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-danger btn-block mt-2 text-white" v-on:click='delete_rel(name)'>
+                        Delete Relation
+                    </a>
+                </div>
+            </div>
         </div>
+        <!--  VueJs Component end-->
         `
     });
-    new Vue({
+    app = new Vue({
         el: '#app',
         delimiters: ["[[", "]]"],
         data: {
@@ -78,11 +224,6 @@
                 rl_id = 'rl-' + this.count;
                 this.relation.push(rl_id);
                 this.count++;
-                console.log(this.relation[0])
-            },
-            removeRelation: function (id) {
-                var index = this.relation.indexOf(id);
-                this.relation.splice(index, 1);
             },
             exportRelation: function () {
                 process = this.json_stringify;
@@ -95,8 +236,11 @@
                 return this.relation.length;
             },
             json_stringify: function () {
-                return JSON.stringify(this.relation)
-            }
+                return JSON.stringify(this.relation);
+            },
+            in_data: function () {
+                return JSON.parse(document.getElementById("data").textContent);
+            },
         }
     })
 

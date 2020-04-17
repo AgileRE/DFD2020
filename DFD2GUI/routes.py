@@ -164,11 +164,6 @@ def add_process_func():
         f.write(process_json)
     return redirect(url_for("add_process_det"))
 
-@app.route("/add-relation")
-@login_required
-def add_relation():
-    return render_template('add_relation.html', title="Add relation" ,active_link=activate_link('new-project'))
-
 @app.route("/add-process-det")
 @login_required
 def add_process_det():
@@ -202,6 +197,19 @@ def add_process_det_func():
         f.write(output)
 
     return redirect(url_for('dashboard'))
+
+@app.route("/add-relation")
+@login_required
+def add_relation():
+    test_path = os.path.join(app.root_path, 'user_project','daryfauzan@gmail.com', 'project 1','metadata.json')
+    with open(test_path, 'r') as f:
+        txt = f.read()
+    in_dic = json.loads(txt)
+    out_dic = get_rel_input_data(in_dic)
+    test = json.dumps(out_dic)
+    # return '<pre>{}</pre>'.format(test)
+    print(type(test))
+    return render_template('add_relation.html', title="Add relation" ,active_link=activate_link('new-project'), in_data=test)
      
 
 @app.route("/fuck-this-shit")
@@ -241,3 +249,34 @@ def get_lowest(dic):
         if check_lowest(key, temp_process):
             output.append(key)
     return output
+
+def get_rel_input_data(input_dic):
+    rel_input_key = []
+    en_ds_key = []
+    pr_low_key = get_lowest(input_dic)
+
+    for key in input_dic:
+        if 'e-' in key or 'ds-' in key:
+            en_ds_key.append(key) 
+
+    rel_input_key.extend(en_ds_key)
+    rel_input_key.extend(pr_low_key)
+
+    rel_input_dic = {'entity':[], 'datastore':[], 'process':[]}
+
+    for key in rel_input_key:
+        type_obj = None
+        if 'pr-' in key:
+            type_obj = 'process'
+        elif 'ds-' in key:
+            type_obj = 'datastore'
+        else:
+            type_obj = 'entity'
+
+        temp = {
+            'name': input_dic[key]['name'],
+            'id': key
+        }
+        rel_input_dic[type_obj].append(temp)
+
+    return rel_input_dic
