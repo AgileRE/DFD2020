@@ -288,6 +288,7 @@ def project(project_id):
         entity_lis = []
         datastore_lis = []
         process_lis = []
+        relation_lis = []
         for key in metadata_dic:
             # Get Entity
             if 'e-' in key:
@@ -309,8 +310,23 @@ def project(project_id):
                     gui_process = metadata_dic[key]['gui']
                 else:
                     gui_process = None
-                out = {'id': id_process, 'name': name_process, 'parent':parent_process, 'gui':gui_process}
+                out = {'id': id_process, 'name': name_process,
+                       'parent': parent_process, 'gui': gui_process}
                 process_lis.append(out)
+            elif 'rl-' in key:
+                id_relation = key
+                name_relation = metadata_dic[key]['name']
+                from_relation = metadata_dic[key]['from']
+                to_relation = metadata_dic[key]['to']
+                attr_relation = metadata_dic[key]['attr']
+                out = {
+                    "id": id_relation,
+                    "name": name_relation,
+                    "from": from_relation,
+                    "to": to_relation,
+                    "attr": list(enumerate(attr_relation,1))
+                }
+                relation_lis.append(out)
 
         # Enumerating the list to be displayed as table
         entity_lis = list(enumerate(entity_lis, 1))
@@ -318,9 +334,10 @@ def project(project_id):
         process_lis = list(enumerate(process_lis, 1))
 
         return render_template('view_project.html', title="View Project", active_link=activate_link('project-list'), project_info=project_info,
-                               entity = entity_lis,
-                               datastore = datastore_lis,
-                               process = process_lis
+                               entity=entity_lis,
+                               datastore=datastore_lis,
+                               process=process_lis,
+                               relation=relation_lis
                                )
     else:
         return redirect(url_for('dashboard'))

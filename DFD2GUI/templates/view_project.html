@@ -138,15 +138,15 @@
                                             <td>{{ i[0] }}</td>
                                             <td id="{{ i[1]['id'] }}">{{ i[1]['name'] }}</td>
                                             {% if i[1]['parent'] %}
-                                                <td>{{ i[1]['parent'] }}</td>
+                                            <td>{{ i[1]['parent'] }}</td>
                                             {% else %}
-                                                <td></td>
+                                            <td></td>
                                             {% endif %}
 
                                             {% if i[1]['gui'] %}
-                                                <td>{{ i[1]['gui'] }}</td>
+                                            <td>{{ i[1]['gui'] }}</td>
                                             {% else %}
-                                                <td></td>
+                                            <td></td>
                                             {% endif %}
                                         </tr>
                                         {% endfor %}
@@ -175,15 +175,17 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                {% for i in relation %}
                                 <div class="col-lg-6 col-12">
+                                    <!-- One relation start -->
                                     <div class="form-group">
                                         <label>Relation Name</label>
-                                        <input type="text" value="Relasi 1" class="form-control" disabled>
+                                        <input type="text" value="{{ i['name'] }}" id="{{ i['id'] }}" class="form-control" disabled>
                                     </div>
                                     <div class="form-group row no-gutters">
                                         <div class="col-5">
                                             <label>From</label>
-                                            <input type="text" value="Type - Nama" class="form-control" disabled>
+                                            <input type="text" value="{{ i['from']['type']+' - '+i['from']['name'] }}" id="{{ i['from']['id'] }}" class="form-control" disabled>
                                         </div>
                                         <div class="col-2">
                                             <div class="text-center">
@@ -194,7 +196,7 @@
                                         </div>
                                         <div class="col-5">
                                             <label>To</label>
-                                            <input type="text" value="Type - Nama" class="form-control" disabled>
+                                            <input type="text" value="{{ i['to']['type']+' - '+i['to']['name'] }}" id="{{ i['to']['id'] }}" class="form-control" disabled>
                                         </div>
                                     </div>
                                     <label>Attributes</label>
@@ -207,58 +209,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for j in i['attr'] %}
                                             <tr>
-                                                <td>1</td>
-                                                <td>Kucing</td>
-                                                <td>Int</td>
+                                                <td>{{ j[0] }}</td>
+                                                <td>{{ j[1]['attr_name'] }}</td>
+                                                <td>{{ j[1]['attr_dtype'] }}</td>
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                     <hr class="rel my-3">
-                                    <!-- One relation end -->
                                 </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        <label>Relation Name</label>
-                                        <input type="text" value="Relasi 1" class="form-control" disabled>
-                                    </div>
-                                    <div class="form-group row no-gutters">
-                                        <div class="col-5">
-                                            <label>From</label>
-                                            <input type="text" value="Type - Nama" class="form-control" disabled>
-                                        </div>
-                                        <div class="col-2">
-                                            <div class="text-center">
-                                                <h4>
-                                                    <i class="fa fa-arrow-right" style="margin-top: 2.5rem;"></i>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <div class="col-5">
-                                            <label>To</label>
-                                            <input type="text" value="Type - Nama" class="form-control" disabled>
-                                        </div>
-                                    </div>
-                                    <label>Attributes</label>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td>#</td>
-                                                <td>Name</td>
-                                                <td>Data Type</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Kucing</td>
-                                                <td>Int</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <hr class="rel my-3">
-                                    <!-- One relation end -->
-                                </div>
+                                {% endfor %}
+                                <!-- One relation end -->
                             </div>
                         </div>
                     </div>
