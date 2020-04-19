@@ -196,21 +196,55 @@ def add_process_det_func():
     with open(path, 'w') as f:
         f.write(output)
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('add_relation'))
 
-@app.route("/add-relation")
+@app.route("/add-relation", methods=["POST", "GET"])
 @login_required
 def add_relation():
-    test_path = os.path.join(app.root_path, 'user_project','daryfauzan@gmail.com', 'project 1','metadata.json')
-    with open(test_path, 'r') as f:
+    global project_session
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
         txt = f.read()
     in_dic = json.loads(txt)
     out_dic = get_rel_input_data(in_dic)
     test = json.dumps(out_dic)
-    # return '<pre>{}</pre>'.format(test)
-    print(type(test))
     return render_template('add_relation.html', title="Add relation" ,active_link=activate_link('new-project'), in_data=test)
      
+@app.route("/add-relation-func", methods=["POST", "GET"])
+@login_required
+def add_relation_func():
+    global project_session
+    # Get the json
+    rel_get = request.args.get('relation')
+    rel_dic = json.loads(rel_get)
+    # Get the metadata.json
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
+        txt = f.read()
+    metadata_dic = json.loads(txt)
+    # Add relation to metadata dictionary
+    for relation in rel_dic:
+        id_rel = relation['id']
+        name_rel = relation['name']
+        type_rel = 'relation'
+        from_rel = relation['from']
+        to_rel = relation['to']
+        attr_rel = relation['attr']
+
+        metadata_dic[id_rel] = {
+            'type': type_rel,
+            'name': name_rel,
+            'from': from_rel,
+            'to': to_rel,
+            'attr': attr_rel
+        }
+
+    # Write the dictionary back to the metadata.json file
+    output_json = json.dumps(metadata_dic, indent=2)
+    with open(path, 'w') as f:
+        txt = f.write(output_json)
+
+    return redirect(url_for('dashboard'))
 
 @app.route("/fuck-this-shit")
 def fuck_this_shit():

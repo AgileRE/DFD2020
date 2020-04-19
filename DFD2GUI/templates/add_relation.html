@@ -29,15 +29,15 @@
                 <i class="fa fa-arrow-right pr-3"></i>
                 Next
             </button>
-
-            <!-- <input type="text" v-bind:value="[[ in_stringify ]]" class="form-control"> -->
-            <!-- <p>[[ in_stringify ]]</p> -->
         </div>
     </div>
 </div>
+
+<!-- PENTING: jangan dihapus yang di bawah ini -->
 <pre id='data' hidden>
     {{ in_data }}
 </pre>
+<!-- PENTING: jangan dihapus yang di atas ini -->
 {% endblock %}
 
 {% block script %}
@@ -55,7 +55,7 @@
                 attr_name: '',
                 attr_dtype: '0',
                 attr: [],
-                show:true
+                show: true
             }
         },
         methods: {
@@ -66,7 +66,7 @@
             add_attr: function () {
                 name = this.attr_name;
                 dtype = this.attr_dtype;
-                out = { 'name': name, 'dtype': dtype }
+                out = { 'attr_name': name, 'attr_dtype': dtype }
                 this.attr.push(out);
                 this.attr_name = '';
                 this.attr_dtype = '0';
@@ -80,8 +80,8 @@
                 return this.attr.length
             }
         },
-        filters:{
-            cap_first_letter: function(string) {
+        filters: {
+            cap_first_letter: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
         },
@@ -116,7 +116,7 @@
                                 <div v-if="fromType != '0'">
                                     <select class="form-control" v-model='fromObj'>
                                         <option value="0" disabled>Object Name</option>
-                                        <option v-for="i in input_data[fromType]" v-bind:value="i['name']">[[ i['name'] ]]</option>
+                                        <option v-for="i in input_data[fromType]" v-bind:value=" i['name'] + '&' + i['id'] ">[[ i['name'] ]]</option>
                                     </select>
                                 </div>
                                 <div v-else>
@@ -145,7 +145,7 @@
                                 <div v-if="toType != '0'">
                                     <select class="form-control" v-model='toObj'>
                                         <option value="0" disabled>Object Name</option>
-                                        <option v-for="i in input_data[toType]" v-bind:value="i['name']">[[ i['name'] ]]</option>
+                                        <option v-for="i in input_data[toType]" v-bind:value=" i['name'] + '&' + i['id'] ">[[ i['name'] ]]</option>
                                     </select>
                                 </div>
                                 <div v-else>
@@ -193,8 +193,8 @@
                         <tbody>
                             <tr v-for='i in attrFor'>
                                 <td>[[ i ]]</td>
-                                <td>[[ attr[i-1]['name'] ]]</td>
-                                <td>[[ attr[i-1]['dtype'] | cap_first_letter ]]</td>
+                                <td>[[ attr[i-1]['attr_name'] ]]</td>
+                                <td>[[ attr[i-1]['attr_dtype'] | cap_first_letter ]]</td>
                                 <td class="text-center">
                                     <a class="btn btn-danger btn-sm text-white" v-on:click='removeAttr([[ i-1 ]])'>
                                         <i class="fa fa-minus pr-2"></i> Remove
@@ -209,6 +209,8 @@
                 </div>
             </div>
         </div>
+
+        <hr>
         <!--  VueJs Component end-->
         `
     });
@@ -226,9 +228,42 @@
                 this.count++;
             },
             exportRelation: function () {
-                process = this.json_stringify;
-                // path = "{{ url_for('add_process_func') }}" + "?process=" + process;
-                // window.location.replace(path);
+                arr_rel = app.$refs.relation;
+                arr_rel_output = [];
+                for (var i = 0; i < arr_rel.length; i++) {
+                    if (arr_rel[i]['show']) {
+                        id = 'rl-' + i;
+                        type = 'relation';
+                        name_rel = arr_rel[i]['relationName']
+                        name_id_from = arr_rel[i]['fromObj'].split("&"),
+                            from = {
+                                'id': name_id_from[1],
+                                'type': arr_rel[i]['fromType'],
+                                'name': name_id_from[0],
+                            };
+                        name_id_to = arr_rel[i]['toObj'].split("&");
+                        to = {
+                            'id': name_id_to[1],
+                            'type': arr_rel[i]['toType'],
+                            'name': name_id_to[0],
+                        }
+                        attr = arr_rel[i]['attr'];
+
+                        temp_output = {
+                            'id': id,
+                            'name':name_rel,
+                            'type': type,
+                            'from': from,
+                            'to': to,
+                            'attr': attr,
+                        }
+                        arr_rel_output.push(temp_output);
+                    }
+                }
+                console.log(arr_rel_output);
+                json_rel = JSON.stringify(arr_rel_output);
+                path = "{{ url_for('add_relation_func') }}"  + "?relation=" + json_rel;
+                window.location.replace(path);
             }
         },
         computed: {
