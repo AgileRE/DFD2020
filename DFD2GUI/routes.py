@@ -305,7 +305,11 @@ def project(project_id):
                 id_process = key
                 name_process = metadata_dic[key]['name']
                 parent_process = metadata_dic[key]['parent']
-                out = {'id': id_process, 'name': name_process, 'parent':parent_process}
+                if 'gui' in metadata_dic[key]:
+                    gui_process = metadata_dic[key]['gui']
+                else:
+                    gui_process = None
+                out = {'id': id_process, 'name': name_process, 'parent':parent_process, 'gui':gui_process}
                 process_lis.append(out)
 
         # Enumerating the list to be displayed as table

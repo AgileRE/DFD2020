@@ -21,7 +21,7 @@
             <hr>
 
             <div class="row mt-4">
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-3">
                     <!-- Entity start -->
                     <div class="card">
                         <div class="card-header">
@@ -63,7 +63,7 @@
                     </div>
                     <!-- Entity end -->
                 </div>
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-3">
                     <!-- Datastore start -->
                     <div class="card">
                         <div class="card-header">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 col-lg-8">
+                                <div class="col-12">
                                     <div class="form-group">
                                         <table class="table table-bordered">
                                             <thead>
@@ -106,7 +106,7 @@
                     <!-- Datastore end -->
                 </div>
 
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-6">
                     <!-- Process start -->
                     <div class="card">
                         <div class="card-header">
@@ -129,6 +129,7 @@
                                             <td>#</td>
                                             <td>Process Name</td>
                                             <td>Parent Process</td>
+                                            <td>GUI</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,6 +139,12 @@
                                             <td id="{{ i[1]['id'] }}">{{ i[1]['name'] }}</td>
                                             {% if i[1]['parent'] %}
                                                 <td>{{ i[1]['parent'] }}</td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
+
+                                            {% if i[1]['gui'] %}
+                                                <td>{{ i[1]['gui'] }}</td>
                                             {% else %}
                                                 <td></td>
                                             {% endif %}
@@ -151,7 +158,7 @@
                     <!-- Process end -->
                 </div>
 
-                <div class="col-8">
+                <div class="col-12 col-lg-8">
                     <!-- Relation start -->
                     <div class="card">
                         <div class="card-header">
