@@ -164,29 +164,10 @@ def add_process_func():
         f.write(process_json)
     return redirect(url_for("add_process_det"))
 
-
 @app.route("/add-process-det")
 @login_required
 def add_process_det():
-    global project_session
-    def check_lowest(key, dic):
-        for k in dic:
-            if dic[k]['parent'] == dic[key]['name']:
-                return False
-        return True
-
-    def get_lowest(dic):
-        output = []
-        temp_process = {}
-        for i in dic:
-            if 'pr' in i:
-                temp_process[i] = dic[i]
-        for key in temp_process:
-            if check_lowest(key, temp_process):
-                output.append(key)
-        return output
-
-    
+    global project_session    
     path = os.path.join(project_session['path'], 'metadata.json')
     with open(path, 'r') as f:
         json_txt = f.read()
@@ -215,8 +196,55 @@ def add_process_det_func():
     with open(path, 'w') as f:
         f.write(output)
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('add_relation'))
+
+@app.route("/add-relation", methods=["POST", "GET"])
+@login_required
+def add_relation():
+    global project_session
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
+        txt = f.read()
+    in_dic = json.loads(txt)
+    out_dic = get_rel_input_data(in_dic)
+    test = json.dumps(out_dic)
+    return render_template('add_relation.html', title="Add relation" ,active_link=activate_link('new-project'), in_data=test)
      
+@app.route("/add-relation-func", methods=["POST", "GET"])
+@login_required
+def add_relation_func():
+    global project_session
+    # Get the json
+    rel_get = request.args.get('relation')
+    rel_dic = json.loads(rel_get)
+    # Get the metadata.json
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
+        txt = f.read()
+    metadata_dic = json.loads(txt)
+    # Add relation to metadata dictionary
+    for relation in rel_dic:
+        id_rel = relation['id']
+        name_rel = relation['name']
+        type_rel = 'relation'
+        from_rel = relation['from']
+        to_rel = relation['to']
+        attr_rel = relation['attr']
+
+        metadata_dic[id_rel] = {
+            'type': type_rel,
+            'name': name_rel,
+            'from': from_rel,
+            'to': to_rel,
+            'attr': attr_rel
+        }
+
+    # Write the dictionary back to the metadata.json file
+    output_json = json.dumps(metadata_dic, indent=2)
+    with open(path, 'w') as f:
+        txt = f.write(output_json)
+
+    return redirect(url_for('dashboard'))
 
 @app.route("/fuck-this-shit")
 def fuck_this_shit():
@@ -239,28 +267,50 @@ def logout():
     return redirect(url_for('login'))
 
 
-# import json
+def check_lowest(key, dic):
+    for k in dic:
+        if dic[k]['parent'] == dic[key]['name']:
+            return False
+    return True
 
-# def check_lowest(key, dic):
-#   for k in dic:
-#     if dic[k]['parent'] == dic[key]['name']:
-#       return False
-#   return True
+def get_lowest(dic):
+    output = []
+    temp_process = {}
+    for i in dic:
+        if 'pr' in i:
+            temp_process[i] = dic[i]
+    for key in temp_process:
+        if check_lowest(key, temp_process):
+            output.append(key)
+    return output
 
-# def get_lowest(dic):
-#   output = []
-#   temp_process = {}
-#   for i in dic:
-#     if 'pr' in i:
-#       temp_process[i] = dic[i]
-#   for key in temp_process:
-#     if check_lowest(key, temp_process):
-#       output.append(key)
-#   return output
+def get_rel_input_data(input_dic):
+    rel_input_key = []
+    en_ds_key = []
+    pr_low_key = get_lowest(input_dic)
 
-# with open('test.json', 'r') as f:
-#   json_txt = f.read()
+    for key in input_dic:
+        if 'e-' in key or 'ds-' in key:
+            en_ds_key.append(key) 
 
-# dic_process = json.loads(json_txt)
-# print(get_lowest(dic_process))
+    rel_input_key.extend(en_ds_key)
+    rel_input_key.extend(pr_low_key)
 
+    rel_input_dic = {'entity':[], 'datastore':[], 'process':[]}
+
+    for key in rel_input_key:
+        type_obj = None
+        if 'pr-' in key:
+            type_obj = 'process'
+        elif 'ds-' in key:
+            type_obj = 'datastore'
+        else:
+            type_obj = 'entity'
+
+        temp = {
+            'name': input_dic[key]['name'],
+            'id': key
+        }
+        rel_input_dic[type_obj].append(temp)
+
+    return rel_input_dic
