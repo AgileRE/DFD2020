@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<style>
+  .boxmeta{
+    padding-left: 20px;
+    padding-top: 20px;
+    margin: auto;
+    width: 700px;
+    height: 600px;
+    background:white;
+    border-radius: 5px;
+
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="boxmeta">
+    <form  action="" method="post">
+      <ul>
+        <fieldset class="form-group">
+   <div class="row">
+     <legend class="col-form-label col-sm-2 pt-0">Radio button</legend>
+     <div class="col-sm-10">
+       <div class="form-check">
+         <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+         <label class="form-check-label" for="gridRadios1">
+           1
+         </label>
+       </div>
+       <div class="form-check">
+         <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+         <label class="form-check-label" for="gridRadios2">
+           2
+         </label>
+         <div class="form-check">
+           <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+           <label class="form-check-label" for="gridRadios2">
+             3
+           </label>
+         </div>
+       </div>
+     </div>
+   </div>
+ </fieldset>
+ <div class="form-group">
+ <label for="exampleFormControlSelect1">Selectbox<br></label>
+ <select id="inputState" class="form-control" name="golongan1"required>
+   <option>1</option>
+   <option>2</option>
+   <option>3</option>
+   <option>4</option>
+   <option>5</option>
+   <option>6</option>
+ </select>
+</div>
+<label>input Date</label>
+        <ul>
+          <form class="form-group">
+         <li><label class="my-1 mr-2" for="inlineFormCustomSelectPref"> Tanggal
+           <input type="number" autocomplete="off" name="tanggalmasuk" required >
+           <!-- <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"> -->
+           <!-- </select> -->
+           </form>
+         </ul>
+         <br>
+       <ul>
+           <div class="form-group">
+         <li><label for="exampleFormControlSelect1">Bulan       <select name="bulanmasuk" required>
+           <option>Januari</option>
+           <option>Februari</option>
+           <option>Maret</option>
+           <option>April</option>
+           <option>Mei</option>
+           <option>Juni</option>
+           <option>Juli</option>
+           <option>Agustus</option>
+           <option>September</option>
+           <option>Oktober</option>
+           <option>November</option>
+           <option>Desember</option>
+           <select class="form-control" id="exampleFormControlSelect1">
+         </select>
+       </select>
+     </div>
+   </ul>
+     <ul>
+
+         <li><label > Tahun
+           <input type="number" autocomplete="off" name="tahunmasuk" required >
+
+       </ul>
+<div class="form-group">
+   <label for="exampleFormControlInput1">inputan</label>
+   <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="input disni">
+ </div>
+ <label>input nomer</label>
+         <ul>
+           <form class="form-group">
+          <li><label class="my-1 mr-2" for="inlineFormCustomSelectPref">
+            <input type="number" autocomplete="off" name="tanggalmasuk" required >
+            <!-- <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"> -->
+            <!-- </select> -->
+            </form>
+          </ul>
+
+    </form>
+  </div>
+{% endblock %}
