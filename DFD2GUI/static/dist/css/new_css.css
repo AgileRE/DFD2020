@@ -37,3 +37,12 @@
 [class*="sidebar-blue-"] .sidebar a span:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link) {
     color: #0080ff;
 }
+.boxregis{
+  padding-left: 20px;
+  padding-top: 20px;
+  margin: auto;
+  width: 700px;
+  height: 600px;
+  background:white;
+  border-radius: 5px;
+}
