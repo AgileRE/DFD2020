@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, send_from_directory
 from DFD2GUI import app, db, project_session
 from DFD2GUI.forms import RegistrationForm, LoginForm, UploadDFDFileForm
 from DFD2GUI.models import User, Project
@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from datetime import date
 from itertools import count
 import os
+import shutil
 import json
 
 
@@ -271,6 +272,7 @@ def add_relation_func():
 
     return redirect(url_for('add_gui_attr'))
 
+
 @app.route("/add-gui-attr")
 @login_required
 def add_gui_attr():
@@ -286,9 +288,11 @@ def add_gui_attr():
             temp_id = i
             temp_gui_type = dic_file[i]['gui']
             temp_proc_name = dic_file[i]['name']
-            lis.append({'id': temp_id, 'name':temp_proc_name, 'gui_type': temp_gui_type})
+            lis.append({'id': temp_id, 'name': temp_proc_name,
+                        'gui_type': temp_gui_type})
     lis = json.dumps(lis)
     return render_template('add_gui_attr.html', title="Add GUI atrributes", active_link=activate_link('new-project'), data=lis)
+
 
 @app.route("/add-gui-attr-func")
 @login_required
@@ -313,6 +317,7 @@ def add_gui_attr_func():
 
     return redirect(url_for('dashboard'))
 
+
 @app.route("/project/<int:project_id>", methods=["POST", "GET"])
 @login_required
 def project(project_id):
@@ -330,6 +335,7 @@ def project(project_id):
         datastore_lis = []
         process_lis = []
         relation_lis = []
+        gui_attr = []
         for key in metadata_dic:
             # Get Entity
             if 'e-' in key:
@@ -349,11 +355,18 @@ def project(project_id):
                 parent_process = metadata_dic[key]['parent']
                 if 'gui' in metadata_dic[key]:
                     gui_process = metadata_dic[key]['gui']
+                    attr = metadata_dic[key]['gui_attr']
+                    out_attr = {
+                        'proc_name': name_process,
+                        'gui_type': gui_process,
+                        'gui_attr': list(enumerate(attr, 1))
+                    }
+                    gui_attr.append(out_attr)
                 else:
                     gui_process = None
-                out = {'id': id_process, 'name': name_process,
-                       'parent': parent_process, 'gui': gui_process}
-                process_lis.append(out)
+                out_process = {'id': id_process, 'name': name_process,
+                               'parent': parent_process, 'gui': gui_process}
+                process_lis.append(out_process)
             elif 'rl-' in key:
                 id_relation = key
                 name_relation = metadata_dic[key]['name']
@@ -365,7 +378,7 @@ def project(project_id):
                     "name": name_relation,
                     "from": from_relation,
                     "to": to_relation,
-                    "attr": list(enumerate(attr_relation,1))
+                    "attr": list(enumerate(attr_relation, 1))
                 }
                 relation_lis.append(out)
 
@@ -378,7 +391,8 @@ def project(project_id):
                                entity=entity_lis,
                                datastore=datastore_lis,
                                process=process_lis,
-                               relation=relation_lis
+                               relation=relation_lis,
+                               gui_attr=gui_attr
                                )
     else:
         return redirect(url_for('dashboard'))
@@ -388,9 +402,68 @@ def project(project_id):
 # def project_edit(project_id):
 #     return f"<h1>Project id: {project_id} </h1>"
 
+
+@app.route('/generate-gui')
+@login_required
+def generate_gui():
+    from shutil import copytree
+    path = os.path.join(app.root_path, 'project_output sample')
+    os.chdir(path)
+    for i in os.listdir(path):
+        if os.path.isdir(i):
+            shutil.rmtree(i)
+        else:
+            os.remove(i)
+    src = os.path.join(app.root_path, 'gui_template', 'assets')
+    dst = os.path.join(app.root_path, 'project_output sample', 'assets')
+    copytree(src, dst)
+    os.chdir(app.root_path)
+
+    side_bar_link = '''
+    <li class="nav-item">
+        <a href="{link}.html" class="nav-link">
+            {process_name}
+        </a>
+    </li>
+    '''
+    # get metadata
+    with open(os.path.join(app.root_path, 'test.json')) as f:
+        txt = f.read()
+    json_dic = json.loads(txt)
+    sidebar = []
+    # get html template
+    with open(os.path.join(app.root_path, 'gui_template', 'template.html'), 'r') as f:
+        html = f.read()
+    # get gui process
+    process_gui = []
+    for i in json_dic:
+        if 'pr-' in i and 'gui' in json_dic[i]:
+            process_gui.append(json_dic[i])
+    # add sidebar template
+    for i in process_gui:
+        proc_name = i['name']
+        link = proc_name.replace(' ', '')
+        sidebar.append(side_bar_link.format(link=link, process_name=proc_name))
+    html = html.format(sidebar=''.join(sidebar), project_name='Test 1', process_name='{process_name}', gui_type='{gui_type}')
+    # Generate html page for every process gui
+    for i in process_gui:
+        link = f"{i['name'].replace(' ','')}.html"
+        path = os.path.join(app.root_path, 'project_output sample', link)
+        temp_template = html.format(process_name=i['name'], gui_type= gui_type_name_tranf(i['gui']))
+        with open(path, 'w') as f:
+            f.write(temp_template)
+
+
+    # with open(os.path.join(app.root_path, 'project_output sample', 'test.html'), 'w') as f:
+    #     f.write(html)
+    return 'worked'
+
+@app.route('/test')
+def test():
+    return send_from_directory(directory=app.root_path, filename='test.json', as_attachment=True)
+
 @app.route("/fuck-this-shit")
 def fuck_this_shit():
-    import shutil
     user_project = os.path.join(app.root_path, 'user_project')
     os.chdir(user_project)
     for i in os.listdir(user_project):
@@ -459,3 +532,11 @@ def get_rel_input_data(input_dic):
         rel_input_dic[type_obj].append(temp)
 
     return rel_input_dic
+
+def gui_type_name_tranf(name):
+    if name == 'master_data':
+        return 'Master Data'
+    elif name == 'grid':
+        return 'Grid'
+    elif name == 'input':
+        return 'Input'

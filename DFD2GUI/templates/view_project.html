@@ -129,7 +129,6 @@
                                             <td>#</td>
                                             <td>Process Name</td>
                                             <td>Parent Process</td>
-                                            <td>GUI</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,12 +138,6 @@
                                             <td id="{{ i[1]['id'] }}">{{ i[1]['name'] }}</td>
                                             {% if i[1]['parent'] %}
                                             <td>{{ i[1]['parent'] }}</td>
-                                            {% else %}
-                                            <td></td>
-                                            {% endif %}
-
-                                            {% if i[1]['gui'] %}
-                                            <td>{{ i[1]['gui'] }}</td>
                                             {% else %}
                                             <td></td>
                                             {% endif %}
@@ -158,7 +151,7 @@
                     <!-- Process end -->
                 </div>
 
-                <div class="col-12 col-lg-8">
+                <div class="col-12 col-lg-7">
                     <!-- Relation start -->
                     <div class="card">
                         <div class="card-header">
@@ -226,6 +219,48 @@
                         </div>
                     </div>
                     <!-- Relation end -->
+                </div>
+                <div class="col-12 col-lg-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>GUI Attributes</h5>
+                                </div>
+                                <div class="col text-right">
+                                    <a href="#" class="btn btn-primary text-white">
+                                        <span><i class="fa fa-pen pr-2"></i>Edit</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- start gui attr -->
+                            {% for i in gui_attr %}
+                            <label>{{ i['proc_name'] }} | {{ i['gui_type'] }}</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Name</td>
+                                        <td>Data Type</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for index, attr in i['gui_attr'] %}
+                                    <tr>
+                                        <td>{{ index }}</td>
+                                        <td>{{ attr['attr_name'] }}</td>
+                                        <td>{{ attr['attr_type'] }}</td>
+                                    </tr>   
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <hr>
+                            {% endfor %}
+                            <!-- end gui attr -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
