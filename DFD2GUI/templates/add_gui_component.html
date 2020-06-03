@@ -1,0 +1,62 @@
+<div>
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <div class="mt-2">
+                <h3 class="mb-4">Nama Proses - [[ name_type_convert(gui_type) ]]</h3>
+                <div class="form-group">
+                    <label>Attribute Name</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control" placeholder="Attribute Name" v-model="attr_name"
+                                v-on:keyup.enter='add_attr'>
+                        </div>
+                        <div class="col-4">
+                            <select v-if="gui_type == 'input'" name="attr_type" id="" class="form-control" v-model="attr_type">
+                                <option value="0">Input Type</option>
+                                <option v-for="i in input_type_lis" v-bind:value="i">[[ i | cap_first_letter ]]</option>
+                            </select>
+
+                            <select v-else name="attr_type" id="" class="form-control" v-model="attr_type">
+                                <option value="0">Data Type</option>
+                                <option v-for="i in data_type_lis" v-bind:value="i">[[ i | cap_first_letter ]]</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <a class="btn btn-primary text-white" v-on:click="add_attr"> <i class="fa fa-plus pr-2"></i>
+                                Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg-6">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Attributes Name</th>
+                        <th v-if="gui_type == 'input'">Input Type</th>
+                        <th v-else>Data Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="i in attr_for">
+                        <td>[[ i ]]</td>
+                        <td>[[ attr[i-1].attr_name ]]</td>
+                        <td>[[ attr[i-1].attr_type ]]</td>
+                        <td class="text-center">
+                            <a class="btn btn-danger btn-sm text-white" v-on:click='remove_attr([[ i-1 ]])'>
+                                <i class="fa fa-minus pr-2"></i>
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+</div>

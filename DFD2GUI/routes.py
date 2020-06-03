@@ -269,8 +269,49 @@ def add_relation_func():
     with open(path, 'w') as f:
         txt = f.write(output_json)
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('add_gui_attr'))
 
+@app.route("/add-gui-attr")
+@login_required
+def add_gui_attr():
+    global project_session
+
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
+        txt = f.read()
+    dic_file = json.loads(txt)
+    lis = []
+    for i in dic_file.keys():
+        if 'pr-' in i and ('gui' in dic_file[i] and dic_file[i]['gui'] != 'no_gui'):
+            temp_id = i
+            temp_gui_type = dic_file[i]['gui']
+            temp_proc_name = dic_file[i]['name']
+            lis.append({'id': temp_id, 'name':temp_proc_name, 'gui_type': temp_gui_type})
+    lis = json.dumps(lis)
+    return render_template('add_gui_attr.html', title="Add GUI atrributes", active_link=activate_link('new-project'), data=lis)
+
+@app.route("/add-gui-attr-func")
+@login_required
+def add_gui_attr_func():
+    global project_session
+
+    gui_attr_get = request.args.get('gui_attr')
+    gui_attr_dic = json.loads(gui_attr_get)
+
+    path = os.path.join(project_session['path'], 'metadata.json')
+    with open(path, 'r') as f:
+        txt = f.read()
+    metadata_dic = json.loads(txt)
+
+    for i in gui_attr_dic:
+        proc_id = i['proc_id']
+        gui_attr = i['attr']
+        metadata_dic[proc_id]['gui_attr'] = gui_attr
+    out_json = json.dumps(metadata_dic, indent=2)
+    with open(path, 'w') as f:
+        f.write(out_json)
+
+    return redirect(url_for('dashboard'))
 
 @app.route("/project/<int:project_id>", methods=["POST", "GET"])
 @login_required
@@ -342,6 +383,10 @@ def project(project_id):
     else:
         return redirect(url_for('dashboard'))
 
+# @app.route("/project/<int:project_id>/edit")
+# @login_required
+# def project_edit(project_id):
+#     return f"<h1>Project id: {project_id} </h1>"
 
 @app.route("/fuck-this-shit")
 def fuck_this_shit():

@@ -31,7 +31,7 @@
                             <td>{{ project[1].date_created.strftime("%d %b %Y. %H:%M") }}</td>
                             <td data-value="{{ project[1].id }}">
                                 {{ project[1].date_accessed.strftime("%d %b %Y. %H:%M") }}</td>
-                            <td class="text-center"> <a href="#"> <i class="fa fa-eye"></i> </a> </td>
+                            <td class="text-center"> <a href="{{ url_for('project', project_id=project[1].id) }}"> <i class="fa fa-eye"></i> </a> </td>
                             <td class="text-center"> <a href="#"> <i class="fa fa-download"></i> </a> </td>
                         </tr>
                         {% endfor %}

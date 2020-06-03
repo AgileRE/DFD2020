@@ -1,0 +1,201 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            Add GUI Attributes
+        </div>
+        <div class="card-body" id="app">
+
+            <div v-for='i in getData'>
+                <attr_process_box v-bind:proc_name="i['name']" v-bind:gui_type="i['gui_type']" v-bind:proc_id="i['id']"
+                    ref='gui_attr'></attr_process_box>
+            </div>
+
+            <button class="btn btn-primary my-2" v-on:click="export_gui_attr">
+                <i class="fa fa-arrow-right pr-3"></i>
+                Next
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<pre id='data' hidden>
+    {{ data }}
+</pre>
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    Vue.component('attr_process_box', {
+        delimiters: ["[[", "]]"],
+        props: ['proc_id', 'gui_type', 'proc_name'],
+        data: function () {
+            return {
+                attr_name: '',
+                attr_type: '0',
+                attr: [],
+                input_type_lis: ['text', 'password', 'date', 'radio', 'checkbox', 'number'],
+                data_type_lis: ['int', 'string', 'float', 'date', 'boolean']
+            }
+        },
+        methods: {
+            add_attr: function () {
+                attr_name = this.attr_name;
+                attr_type = this.attr_type;
+                out = { 'attr_name': attr_name, 'attr_type': attr_type };
+                this.attr.push(out)
+                this.attr_name = '';
+                this.attr_type = '0';
+            },
+            remove_attr: function (index) {
+                this.attr.splice(index, 1);
+            },
+            name_type_convert: function (type) {
+                if (type == 'input') {
+                    return 'Input'
+                }
+                else if (type == 'grid') {
+                    return 'Grid'
+                }
+                else if (type == 'master_data') {
+                    return 'Master Data'
+                }
+            },
+            // export_gui_attr: function(){
+            //     this.$refs.
+            // }
+        },
+        computed: {
+            attr_for: function () {
+                return this.attr.length;
+            },
+        },
+        filters: {
+            cap_first_letter: function (string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+        },
+        template: `
+        <div>
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <div class="mt-2">
+                <h3 class="mb-4">[[ proc_name ]] | [[ name_type_convert(gui_type) ]]</h3>
+                <div class="form-group">
+                    <label>Attribute Name</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control" placeholder="Attribute Name" v-model="attr_name"
+                                v-on:keyup.enter='add_attr'>
+                        </div>
+                        <div class="col-4">
+                            <select v-if="gui_type == 'input'" name="attr_type" id="" class="form-control" v-model="attr_type">
+                                <option value="0">Input Type</option>
+                                <option v-for="i in input_type_lis" v-bind:value="i">[[ i | cap_first_letter ]]</option>
+                            </select>
+
+                            <select v-else name="attr_type" id="" class="form-control" v-model="attr_type">
+                                <option value="0">Data Type</option>
+                                <option v-for="i in data_type_lis" v-bind:value="i">[[ i | cap_first_letter ]]</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <a class="btn btn-primary text-white" v-on:click="add_attr"> <i class="fa fa-plus pr-2"></i>
+                                Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg-6">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Attributes Name</th>
+                        <th v-if="gui_type == 'input'">Input Type</th>
+                        <th v-else>Data Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="i in attr_for">
+                        <td>[[ i ]]</td>
+                        <td>[[ attr[i-1].attr_name ]]</td>
+                        <td>[[ attr[i-1].attr_type | cap_first_letter ]]</td>
+                        <td class="text-center">
+                            <a class="btn btn-danger btn-sm text-white" v-on:click='remove_attr([[ i-1 ]])'>
+                                <i class="fa fa-minus pr-2"></i>
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+</div>
+        `
+    });
+
+    app = new Vue({
+        el: '#app',
+        delimiters: ["[[", "]]"],
+        data: {
+            gui_attr: []
+        },
+        methods: {
+            addEntity: function () {
+                this.entities.push(this.newEntity);
+                this.newEntity = '';
+            },
+            export_gui_attr: function () {
+                gui_attr = app.$refs.gui_attr;
+                gui_attr_output = [];
+                for (var i = 0; i < gui_attr.length; i++) { 
+                    proc_id = gui_attr[i]['proc_id']; 
+                    gui_attr_lis = []
+                    for (var j = 0; j < gui_attr[i]['attr'].length; j++){
+                        gui_attr_lis.push(gui_attr[i]['attr'][j]);
+                    }
+                    temp_push = {
+                        'proc_id': gui_attr[i]['proc_id'],
+                        'attr': gui_attr_lis
+                    }
+                    gui_attr_output.push(temp_push)
+                }
+                console.log(gui_attr_output);
+                gui_attr_json = JSON.stringify(gui_attr_output);
+                path = "{{ url_for('add_gui_attr_func') }}" + '?gui_attr=' + gui_attr_json;
+                window.location.replace(path);
+            }
+        },
+        computed: {
+            entitiesFor: function () {
+                return this.entities.length;
+            },
+            getData: function () {
+                // return JSON.parse(document.getElementById("data").textContent);
+                return JSON.parse(document.getElementById("data").textContent);
+            },
+        }
+    })
+</script>
+
+{% endblock %}
