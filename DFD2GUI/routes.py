@@ -502,6 +502,7 @@ def fuck_this_shit():
 @app.route("/logout")
 def logout():
     logout_user()
+    os.chdir(app.root_path)
     return redirect(url_for('login'))
 
 def check_lowest(key, dic):
