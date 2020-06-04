@@ -18,6 +18,9 @@
         <div class="card-body" id="app">
             <h1>Project Name: {{ project_info.project_name }}</h1>
             <p>Last Edited: {{ project_info.date_created.strftime("%d %b %Y. %H:%M") }}</p>
+            <a class="btn btn-primary text-white" href="{{ url_for('download_gui', project_id=project_info.id) }}">
+                Download GUI<i class="fas fa-download pl-2"></i>
+            </a>
             <hr>
 
             <div class="row mt-4">
@@ -30,7 +33,7 @@
                                     <h5>Entity</h5>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="#" class="btn btn-primary text-white">
+                                    <a href="#" class="btn btn-sm btn-primary text-white">
                                         <span><i class="fa fa-pen pr-2"></i>Edit</span>
                                     </a>
                                 </div>
@@ -72,7 +75,7 @@
                                     <h5>Datastore</h5>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="#" class="btn btn-primary text-white">
+                                    <a href="#" class="btn btn-sm btn-primary text-white">
                                         <span><i class="fa fa-pen pr-2"></i>Edit</span>
                                     </a>
                                 </div>
@@ -115,7 +118,7 @@
                                     <h5>Process</h5>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="#" class="btn btn-primary text-white">
+                                    <a href="#" class="btn btn-sm btn-primary text-white">
                                         <span><i class="fa fa-pen pr-2"></i>Edit</span>
                                     </a>
                                 </div>
@@ -160,7 +163,7 @@
                                     <h5>Relation</h5>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="#" class="btn btn-primary text-white">
+                                    <a href="#" class="btn btn-sm btn-primary text-white">
                                         <span><i class="fa fa-pen pr-2"></i>Edit</span>
                                     </a>
                                 </div>
@@ -228,7 +231,7 @@
                                     <h5>GUI Attributes</h5>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="#" class="btn btn-primary text-white">
+                                    <a href="#" class="btn btn-sm btn-primary text-white">
                                         <span><i class="fa fa-pen pr-2"></i>Edit</span>
                                     </a>
                                 </div>
