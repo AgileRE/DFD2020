@@ -112,6 +112,14 @@ def new_project():
         print(form.errors)
     return render_template('new_project.html', title="New Project", form=form, active_link=activate_link('new-project'))
 
+@app.route("/remove-project/<id>")
+@login_required
+def remove_project(id):
+    delete = Project.query.filter_by(id=id).first()
+    db.session.delete(delete)
+    db.session.commit()
+    return redirect(url_for("project_list"))
+
 @app.route("/add-entity", methods=["POST", "GET"])
 @login_required
 def add_entity():
@@ -172,8 +180,7 @@ def add_process_func():
         dic = json.loads(f.read())
 
     for i, item in enumerate(process_list):
-        dic['pr-'+str(i)] = {'type': 'process',
-                             'name': item['name'], 'parent': item['parent']}
+        dic[ 'pr-'+str(i) ] = {'type':'process', 'name':item['name'], 'parent':item['parent']}
 
     process_json = json.dumps(dic, indent=2)
     with open(path, 'w') as f:

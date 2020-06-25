@@ -19,8 +19,7 @@
                             <th>Project Name</th>
                             <th>Date Created</th>
                             <th>Date Accessed</th>
-                            <th class="text-center">Preview</th>
-                            <th class="text-center">Download</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,8 +30,17 @@
                             <td>{{ project[1].date_created.strftime("%d %b %Y. %H:%M") }}</td>
                             <td data-value="{{ project[1].id }}">
                                 {{ project[1].date_accessed.strftime("%d %b %Y. %H:%M") }}</td>
-                            <td class="text-center"> <a href="{{ url_for('project', project_id=project[1].id) }}"> <i class="fa fa-eye"></i> </a> </td>
-                            <td class="text-center"> <a href="#"> <i class="fa fa-download"></i> </a> </td>
+                            <td class="text-center"> 
+                                <a href="{{ url_for('project', project_id=project[1].id) }}" class="btn btn-info"> 
+                                Preview
+                                </a>
+                                <a href="#" class="btn btn-success"> 
+                                Download
+                                </a>
+                                <a href="{{ url_for('remove_project', id = project[1].id) }}" 
+                                    onclick="return confirm('Are you sure you want to delete this project?');" class="btn btn-danger">Delete
+                                </a> 
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
