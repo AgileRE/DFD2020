@@ -443,7 +443,7 @@ def generate_gui(project_id):
             proc_name = i['name']
             link = proc_name.replace(' ', '')
             sidebar.append(side_bar_link.format(link=link, process_name=proc_name))
-    html = html.format(sidebar=''.join(sidebar), project_name='Test 1', process_name='{process_name}', gui_type='{gui_type}', content='{content}')
+    html = html.format(sidebar=''.join(sidebar), project_name=project_info.project_name, process_name='{process_name}', gui_type='{gui_type}', content='{content}')
     # Generate html page for every process gui
     for i in process_gui:
         if i['gui'] != 'no_gui':
@@ -464,7 +464,7 @@ def generate_gui(project_id):
             html_output[i['name']] = html_output[i['name']].format(content=content)
     # Write to HTML
     for name, html in html_output.items():
-        path = os.path.join(app.root_path, 'user_project',current_user.email, project_info.project_name, 'GUI', '{}.html'.format(name))
+        path = os.path.join(app.root_path, 'user_project',current_user.email, project_info.project_name, 'GUI', '{}.html'.format(name.replace(' ', '')))
         with open(path, 'w') as f:
             f.write(html)
 
