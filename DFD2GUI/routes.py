@@ -481,8 +481,8 @@ def download_gui(project_id):
 def test():
     return send_from_directory(directory=app.root_path, filename='test.json', as_attachment=True)
 
-@app.route("/fuck-this-shit")
-def fuck_this_shit():
+@app.route("/login-page")
+def login_page():
     user_project = os.path.join(app.root_path, 'user_project')
     folder = user_project
     for filename in os.listdir(folder):
