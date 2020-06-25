@@ -43,7 +43,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <a class="dropdown-item" href="{{ url_for('project', project_id=project.id) }}">View</a>
-                                        <a class="dropdown-item" href="#">Download</a>
+                                        <a class="dropdown-item" href="{{ url_for('download_gui', project_id=project.id) }}">Download</a>
                                     </div>
                                 </div>
                             </td>
@@ -88,8 +88,8 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="#">View</a>
-                                        <a class="dropdown-item" href="#">Download</a>
+                                        <a class="dropdown-item" href="{{ url_for('project', project_id=project.id) }}">View</a>
+                                        <a class="dropdown-item" href="{{ url_for('download_gui', project_id=project.id) }}">Download</a>
                                     </div>
                                 </div>
                             </td>
