@@ -19,7 +19,7 @@
                         <tr>
                             <th scope="col" class="sort" data-sort="name">Project</th>
                             <th scope="col" class="sort" data-sort="date_updated">Date Updated</th>
-                            <th scope="col" class="sort" data-sort="data_uploaded">Date Uploaded</th>
+                            <th scope="col" class="sort" data-sort="data_created">Date Created</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -30,7 +30,7 @@
                                 <span class="name mb-0 text-sm">{{ project.project_name }}</span>
                             </th>
                             <td>
-                                {{ project.date_uploaded.strftime("%d %b %Y. %H:%M") }}
+                                {{ project.date_created.strftime("%d %b %Y. %H:%M") }}
                             </td>
                             <td>
                                 {{ project.date_accessed.strftime("%d %b %Y. %H:%M") }}
@@ -42,8 +42,8 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="#">View</a>
-                                        <a class="dropdown-item" href="#">Download</a>
+                                        <a class="dropdown-item" href="{{ url_for('project', project_id=project.id) }}">View</a>
+                                        <a class="dropdown-item" href="{{ url_for('download_gui', project_id=project.id) }}">Download</a>
                                     </div>
                                 </div>
                             </td>
@@ -88,8 +88,8 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="#">View</a>
-                                        <a class="dropdown-item" href="#">Download</a>
+                                        <a class="dropdown-item" href="{{ url_for('project', project_id=project.id) }}">View</a>
+                                        <a class="dropdown-item" href="{{ url_for('download_gui', project_id=project.id) }}">Download</a>
                                     </div>
                                 </div>
                             </td>

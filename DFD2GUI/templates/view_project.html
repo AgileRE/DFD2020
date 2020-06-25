@@ -1,0 +1,258 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<style>
+    hr.rel {
+        border-top: 1px solid rgba(0, 0, 0, 0.3)
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            {{ title }} <br>
+        </div>
+        <div class="card-body" id="app">
+            <h1>Project Name: {{ project_info.project_name }}</h1>
+            <p>Last Edited: {{ project_info.date_created.strftime("%d %b %Y. %H:%M") }}</p>
+            <a class="btn btn-primary text-white" href="{{ url_for('download_gui', project_id=project_info.id) }}">
+                Download GUI<i class="fas fa-download pl-2"></i>
+            </a>
+            <hr>
+
+            <div class="row mt-4">
+                <div class="col-12 col-lg-3">
+                    <!-- Entity start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Entity</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td>#</td>
+                                                    <td>Entity Name</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in entity %}
+                                                <tr>
+                                                    <td>{{ i[0] }}</td>
+                                                    <td id="{{ i[1]['id'] }}">{{ i[1]['name'] }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Entity end -->
+                </div>
+                <div class="col-12 col-lg-3">
+                    <!-- Datastore start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Datastore</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td>#</td>
+                                                    <td>Datastore Name</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in datastore %}
+                                                <tr>
+                                                    <td>{{ i[0] }}</td>
+                                                    <td id="{{ i[1]['id'] }}">{{ i[1]['name'] }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Datastore end -->
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <!-- Process start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Process</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>Process Name</td>
+                                            <td>Parent Process</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in process %}
+                                        <tr>
+                                            <td>{{ i[0] }}</td>
+                                            <td id="{{ i[1]['id'] }}">{{ i[1]['name'] }}</td>
+                                            {% if i[1]['parent'] %}
+                                            <td>{{ i[1]['parent'] }}</td>
+                                            {% else %}
+                                            <td></td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Process end -->
+                </div>
+
+                <div class="col-12 col-lg-7">
+                    <!-- Relation start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Relation</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% for i in relation %}
+                                <div class="col-lg-6 col-12">
+                                    <!-- One relation start -->
+                                    <div class="form-group">
+                                        <label>Relation Name</label>
+                                        <input type="text" value="{{ i['name'] }}" id="{{ i['id'] }}" class="form-control" disabled>
+                                    </div>
+                                    <div class="form-group row no-gutters">
+                                        <div class="col-5">
+                                            <label>From</label>
+                                            <input type="text" value="{{ i['from']['type']+' - '+i['from']['name'] }}" id="{{ i['from']['id'] }}" class="form-control" disabled>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="text-center">
+                                                <h4>
+                                                    <i class="fa fa-arrow-right" style="margin-top: 2.5rem;"></i>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <label>To</label>
+                                            <input type="text" value="{{ i['to']['type']+' - '+i['to']['name'] }}" id="{{ i['to']['id'] }}" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <label>Attributes</label>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>Name</td>
+                                                <td>Data Type</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for j in i['attr'] %}
+                                            <tr>
+                                                <td>{{ j[0] }}</td>
+                                                <td>{{ j[1]['attr_name'] }}</td>
+                                                <td>{{ j[1]['attr_dtype'] }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <hr class="rel my-3">
+                                </div>
+                                {% endfor %}
+                                <!-- One relation end -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Relation end -->
+                </div>
+                <div class="col-12 col-lg-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>GUI Attributes</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- start gui attr -->
+                            {% for i in gui_attr %}
+                            <label>{{ i['proc_name'] }} | {{ i['gui_type'] }}</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Name</td>
+                                        <td>Data Type</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for index, attr in i['gui_attr'] %}
+                                    <tr>
+                                        <td>{{ index }}</td>
+                                        <td>{{ attr['attr_name'] }}</td>
+                                        <td>{{ attr['attr_type'] }}</td>
+                                    </tr>   
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <hr>
+                            {% endfor %}
+                            <!-- end gui attr -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="btn btn-primary my-4" v-on:click="exportRelation">
+                <i class="fa fa-arrow-right pr-3"></i>
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

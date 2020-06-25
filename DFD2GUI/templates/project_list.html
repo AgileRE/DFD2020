@@ -17,7 +17,7 @@
                         <tr>
                             <th>No</th>
                             <th>Project Name</th>
-                            <th>Date Uploaded</th>
+                            <th>Date Created</th>
                             <th>Date Accessed</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -27,11 +27,11 @@
                         <tr>
                             <td>{{ project[0] }}</td>
                             <td>{{ project[1].project_name }}</td>
-                            <td>{{ project[1].date_uploaded.strftime("%d %b %Y. %H:%M") }}</td>
+                            <td>{{ project[1].date_created.strftime("%d %b %Y. %H:%M") }}</td>
                             <td data-value="{{ project[1].id }}">
                                 {{ project[1].date_accessed.strftime("%d %b %Y. %H:%M") }}</td>
                             <td class="text-center"> 
-                                <a href="#" class="btn btn-info"> 
+                                <a href="{{ url_for('project', project_id=project[1].id) }}" class="btn btn-info"> 
                                 Preview
                                 </a>
                                 <a href="#" class="btn btn-success"> 

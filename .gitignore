@@ -4,3 +4,5 @@ __init__.pyc
 /.mypy_cache/3.7
 DFD2GUI/site.db
 DFD2GUI/user_project/*
+DFD2GUI/test.json
+DFD2GUI/project_output sample/
