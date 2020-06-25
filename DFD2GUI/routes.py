@@ -348,7 +348,7 @@ def project(project_id):
                 id_process = key
                 name_process = metadata_dic[key]['name']
                 parent_process = metadata_dic[key]['parent']
-                if 'gui' in metadata_dic[key]:
+                if 'gui' in metadata_dic[key] and metadata_dic[key]['gui'] != 'no_gui':
                     gui_process = metadata_dic[key]['gui']
                     attr = metadata_dic[key]['gui_attr']
                     out_attr = {
@@ -439,16 +439,18 @@ def generate_gui(project_id):
             process_gui.append(json_dic[i])
     # add sidebar template
     for i in process_gui:
-        proc_name = i['name']
-        link = proc_name.replace(' ', '')
-        sidebar.append(side_bar_link.format(link=link, process_name=proc_name))
+        if i['gui'] != 'no_gui':
+            proc_name = i['name']
+            link = proc_name.replace(' ', '')
+            sidebar.append(side_bar_link.format(link=link, process_name=proc_name))
     html = html.format(sidebar=''.join(sidebar), project_name='Test 1', process_name='{process_name}', gui_type='{gui_type}', content='{content}')
     # Generate html page for every process gui
     for i in process_gui:
-        link = f"{i['name'].replace(' ','')}.html"
-        path = os.path.join(app.root_path, 'project_output sample', link)
-        temp_template = html.format(process_name=i['name'], gui_type= gui_type_name_tranf(i['gui']), content='{content}')
-        html_output[i['name']] = temp_template
+        if i['gui'] != 'no_gui':
+            link = f"{i['name'].replace(' ','')}.html"
+            path = os.path.join(app.root_path, 'project_output sample', link)
+            temp_template = html.format(process_name=i['name'], gui_type= gui_type_name_tranf(i['gui']), content='{content}')
+            html_output[i['name']] = temp_template
     # Generate Content
     for i in process_gui:
         if i['gui'] == 'master_data':
