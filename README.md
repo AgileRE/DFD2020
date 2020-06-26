@@ -80,4 +80,4 @@ Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 * 081711633051 - **Sherina Avianita**
 * 081711633055 - **Salsyabila Putri Pratama**
 
-![sutil](meong.jpg)
+![sutil](meong.jpeg)
