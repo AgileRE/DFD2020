@@ -10,6 +10,7 @@ Berikut adalah intruksi yang perlu dilakukan agar dapat berjalan di komputer and
 
 Salin baris kode di bawah ini satu persatu ke *terminal* atau ke *command prompt* anda untuk dapat menggunakan *Tools*, *Library*, dan *framework* yang digunakan di projek ini.
 
+
 ```
 $ pip install Flask
 
@@ -23,6 +24,7 @@ $ pip install Flask-Login
 
 $ pip install beautifulsoup4
 ```
+
 
 ### Installing
 
@@ -77,3 +79,5 @@ Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 * 081711633045 - **Adenegara Rizky Gusty P**
 * 081711633051 - **Sherina Avianita**
 * 081711633055 - **Salsyabila Putri Pratama**
+
+![sutil](meong.jpg)
