@@ -71,7 +71,54 @@ Setelah itu, akan muncul balasan seperti di bawah ini di *terminal* anda.
 Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 
 # User Guide
+1. Login
+   
+![Register](readme_asset/Register.png)
+<hr>
+2. Register
 
+![Login](readme_asset/Login.png)
+<hr>
+3. Dashboard
+
+![Dashboard](readme_asset/Dashboard.png)
+<hr>
+4. New Project
+
+![New_Project](readme_asset/New_Project.png)
+<hr>
+5. Add Entity
+
+![](readme_asset/add_entity.png)
+<hr>
+6. Add Datastore
+
+![](readme_asset/Add_Datastore.png)
+<hr>
+7. Add Process
+
+![](readme_asset/Add_Process.png)
+<hr>
+8. Add Process Detail
+
+![](readme_asset/Add_Process_Detail.png)
+<hr>
+9. Add Relation(Data flow)
+
+![](readme_asset/Add_relation.png)
+<hr>
+10. Add GUI attributes
+
+![dsds](readme_asset/Add_GUI_atrributes.png)
+<hr>
+11. Project List
+
+![](readme_asset/Project_list.png)
+<hr>
+12. View Project
+
+![](readme_asset/View_Project.png)
+<hr>
 ## Authors
 
 * 081711633005 - **Christiana natalia Corputty**
@@ -87,4 +134,3 @@ Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 * 081711633045 - **Adenegara Rizky Gusty P**
 * 081711633051 - **Sherina Avianita**
 * 081711633055 - **Salsyabila Putri Pratama**
-
