@@ -2,29 +2,31 @@
 
 DFD2GUI adalah aplikasi web yang bertujuan memudahkan *user*(*developer*) dalam membangun antarmuka berdasarkan DFD(*Data Flow Diagram*) yang dibuat sebelumnya oleh *user*. *User* dapat melakukan itu dengan meng-*upload file* metadata DFD dari *software* SAP PowerDesigner versi 16. Pada fitur yang akan dibuat ke depan, aplikasi *web* ini akan dapat memberi user pilihan *template* antarmuka seperti tampilan *login*, *register*, *table*, *form*, dan lain-lain. Setelah itu, *user* juga dapat memberi informasi tambahan terkait data apa saja yang terlibat dari suatu proses yang ada di metadata DFD.
 
+# Installation Guide
+
 ## Getting Started
 
 Berikut adalah intruksi yang perlu dilakukan agar dapat berjalan di komputer anda untuk keperluan pengembangan, *testing*, *deployment*, serta apa saja yang perlu di-*install*.
 
 ### Prerequisites
 
-Salin baris kode di bawah ini satu persatu ke *terminal* atau ke *command prompt* anda untuk dapat menggunakan *Tools*, *Library*, dan *framework* yang digunakan di projek ini.
-
+Berikut adalah *Tools*, *Library*, dan *framework* yang digunakan di projek ini.
 
 ```
-$ pip install Flask
+Flask
 
-$ pip install Flask-WTF
+Flask-WTF
 
-$ pip install Flask-SQLAlchemy
+Flask-SQLAlchemy
 
-$ pip install Flask-Bcrypt
+Flask-Bcrypt
 
-$ pip install Flask-Login
-
-$ pip install beautifulsoup4
+Flask-Login
 ```
-
+Untuk menginstall *library* Flask dan dependensinya, jalankan kode di bawah ini. Pastikan komputer anda terhubung dengan internet.
+```
+$ pip install -r requirements.txt
+```
 
 ### Installing
 
@@ -35,9 +37,20 @@ Pindahkan lokasi direktori anda ke projek ini.
 ```
 $ cd DFD2GUI
 ```
+#### Inisiasi Database
+Sebelum dapat menjalankan projek ini di komputer anda, inisiasi database dengan menyalin kode di bawah ini.
+```
+$ python
+```
+setelah masuk ke Python IDLE, salin dan jalankan kode dibawah ini secara berurutan.
+```
+from DFD2GUI import db
 
+db.create_all()
+```
+Setelah itu, anda dapat keluar dari IDLE dan dapat menjalankan projek ini di komputer anda
+#### Menjalankan Server
 Untuk menjalankan projek ini di *server* lokal anda. Salin kode di bawah ini ke *terminal* anda.
-
 ```
 $ python run.py
 ```
@@ -57,12 +70,7 @@ Setelah itu, akan muncul balasan seperti di bawah ini di *terminal* anda.
 ```
 Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 
-## Built With
-
-* [Flask](flask.palletsprojects.com/) - Web framework
-* [Jinja](https://palletsprojects.com/p/jinja/) - Template engine
-* [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) - XML document parser
-
+# User Guide
 
 ## Authors
 
@@ -80,4 +88,3 @@ Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 * 081711633051 - **Sherina Avianita**
 * 081711633055 - **Salsyabila Putri Pratama**
 
-![sutil](meong.jpeg)
