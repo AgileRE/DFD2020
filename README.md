@@ -119,6 +119,7 @@ Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 
 ![](readme_asset/View_Project.png)
 <hr>
+
 ## Authors
 
 * 081711633005 - **Christiana natalia Corputty**
