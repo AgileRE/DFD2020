@@ -71,54 +71,57 @@ Setelah itu, akan muncul balasan seperti di bawah ini di *terminal* anda.
 Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 
 # User Guide
-1. Login
-   
-![Register](readme_asset/Register.png)
-<hr>
-2. Register
+1. Register : Buat akun jika belum ada
 
-![Login](readme_asset/Login.png)
-<hr>
-3. Dashboard
+![Register](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Register.png)
 
-![Dashboard](readme_asset/Dashboard.png)
-<hr>
-4. New Project
+2. Login: Login untuk Masuk ke dalam aplikasi
 
-![New_Project](readme_asset/New_Project.png)
-<hr>
-5. Add Entity
+![Login](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Login.png)
 
-![](readme_asset/add_entity.png)
-<hr>
-6. Add Datastore
+3. Dashboard: Setelah login user akan diarahkan ke Halaman ini. Halaman ini berisikan informasi projek yang baru dibuat dan yang baru di akses
 
-![](readme_asset/Add_Datastore.png)
-<hr>
-7. Add Process
+![Dashboard](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Dashboard.png)
 
-![](readme_asset/Add_Process.png)
-<hr>
-8. Add Process Detail
+4. New Project: Untuk membuat projek pilih menu 'New Project' yang ada di menu sidebar kanan. Setelah itu user dapat memasukan nama projectnya. Nama project tidak boleh sama secara ejaan dengan
+   projek yang dibuat sebelumnya
 
-![](readme_asset/Add_Process_Detail.png)
-<hr>
-9. Add Relation(Data flow)
+![New_Project](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/New_Project.png)
 
-![](readme_asset/Add_relation.png)
-<hr>
-10. Add GUI attributes
+5. Add Entity: Pertama, user menentukan nama entitas yang ada
 
-![dsds](readme_asset/Add_GUI_atrributes.png)
-<hr>
-11. Project List
+![test](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Add_Entity.png)
 
-![](readme_asset/Project_list.png)
-<hr>
-12. View Project
+6. Add Datastore: Lalu user menentukan datastore yang ada
 
-![](readme_asset/View_Project.png)
-<hr>
+![](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Add_Datastore.png)
+
+7. Add Process: Setelah itu user dapat menambahkan proses serta anak proses DFD.
+
+![](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Add_Process.png)
+
+8. Add Process Detail: Dari proses sebelumnya, akan diambil proses yang terendah dan user dapat menentukan jenis GUI untuk proses
+tersebut
+
+![](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Add_Process_Detail.png)
+
+9. Add Relation(Data flow): Selanjutnya menentukan dataflow dari proses ke objek DFD lainnya
+
+![](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Add_relation.png)
+
+10. Add GUI attributes: dari DFD yang memiliki level terendah dan bukan bertipe 'no_gui', user dapat memberikan atribut tipe data atau jenis
+jenis input untuk proses yang memiliki GUI. Tahapan ini adalah tahapan terakhir dari tahapan 'New Project'
+
+![dsds](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Add_GUI_atrributes.png)
+
+11. Project List: Untuk melihat projek apa saja yang telah dibuat
+
+![](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Project_list.png)
+
+12. View Project: Untuk melihat detail metadata dari project. Di halaman ini, GUI dari metadata DFD dapat dibuat
+
+![](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/View_Project.png)
+
 ## Authors
 
 * 081711633005 - **Christiana natalia Corputty**
