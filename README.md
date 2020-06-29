@@ -71,6 +71,7 @@ Setelah itu, akan muncul balasan seperti di bawah ini di *terminal* anda.
 Lalu, salin alamat IP yang ada di atas ke *internet browser* anda.
 
 # User Guide
+
 1. Register : Buat akun jika belum ada
 
 ![Register](https://raw.githubusercontent.com/AgileRE/DFD2020/master/readme_asset/Register.png)
